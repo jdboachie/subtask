@@ -1,13 +1,14 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AppState } from './app-state';
+import { BoardView } from './ui/board/board';
 import { HeaderBar } from './ui/header-bar/header-bar';
 import { Sidebar } from './ui/sidebar/sidebar';
 import { ShowSidebarButton } from './ui/sidebar/show-sidebar-button';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Sidebar, ShowSidebarButton, HeaderBar],
+  imports: [RouterOutlet, Sidebar, ShowSidebarButton, HeaderBar, BoardView],
   templateUrl: './app.html',
   styleUrl: './app.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,5 +29,9 @@ export class App {
 
   protected onAddTask(): void {
     console.log('Add new task');
+  }
+
+  protected onAddColumn(): void {
+    console.log('Add new column');
   }
 }

@@ -17,13 +17,15 @@
 
 <div class="main-content" [class.sidebar-visible]="!sidebarHidden()">
   <app-header-bar
-    [boardName]="appState.currentBoard().name"
+    [boardName]="appState.currentBoard()?.name ?? ''"
     [sidebarHidden]="sidebarHidden()"
     [addTaskDisabled]="addTaskDisabled()"
     (addTask)="onAddTask()"
   />
 
-  <main class="board-area"></main>
+  <main class="board-area">
+    <app-board [currentBoard]="appState.currentBoard()" (addColumn)="onAddColumn()" />
+  </main>
 </div>
 
 <router-outlet />

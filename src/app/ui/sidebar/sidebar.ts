@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
-import { Board } from '../../board/board.model';
+import { Board } from '../board/board.model';
 import { Theme } from '../theme';
 import { ThemeToggle } from '../theme-toggle/theme-toggle';
 import { SidebarButton } from './sidebar-button';

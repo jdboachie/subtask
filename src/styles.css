@@ -56,6 +56,11 @@
 
   --border-color: var(--color-light-gray);
   --line-color: var(--color-light-gray);
+
+  --btn-secondary-bg: rgba(99, 95, 199, 0.1);
+  --btn-secondary-bg-hover: rgba(99, 95, 199, 0.25);
+
+  --sidebar-btn-hover-bg: rgba(99, 95, 199, 0.1);
 }
 
 [data-theme='dark'] {
@@ -69,6 +74,11 @@
 
   --border-color: var(--color-medium-gray);
   --line-color: var(--color-medium-gray);
+
+  --btn-secondary-bg: var(--color-white);
+  --btn-secondary-bg-hover: var(--color-white);
+
+  --sidebar-btn-hover-bg: var(--color-white);
 }
 
 *,

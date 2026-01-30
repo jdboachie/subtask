@@ -1,1 +1,91 @@
-/* You can add global styles to this file, and also import other style files */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  src: url('/fonts/PlusJakartaSans-VariableFont_wght.ttf') format('truetype');
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --color-primary: #635fc7;
+  --color-primary-light: #a8a4ff;
+
+  --color-black: #000112;
+  --color-darker-gray: #20212c;
+  --color-dark-gray: #2b2c37;
+  --color-medium-gray: #3e3f4e;
+
+  --color-gray: #828fa3;
+  --color-light-gray: #e4ebfa;
+  --color-light-blue: #f4f7fd;
+  --color-white: #ffffff;
+
+  --color-destructive: #ea5555;
+  --color-destructive-light: #ff9898;
+
+  --font-family: 'Plus Jakarta Sans', sans-serif;
+
+  --font-size-xl: 1.5rem;
+  --font-size-l: 1.125rem;
+  --font-size-m: 0.9375rem;
+  --font-size-s: 0.75rem;
+  --font-size-body-l: 0.8125rem;
+  --font-size-body-m: 0.75rem;
+
+  --font-weight-bold: 700;
+  --font-weight-medium: 500;
+
+  --line-height-xl: 1.875rem;
+  --line-height-l: 1.4375rem;
+  --line-height-m: 1.1875rem;
+  --line-height-s: 0.9375rem;
+  --line-height-body-l: 1.4375rem;
+  --line-height-body-m: 0.9375rem;
+
+  --letter-spacing-s: 0.15rem;
+}
+
+[data-theme='light'] {
+  --bg-primary: var(--color-light-blue);
+  --bg-secondary: var(--color-white);
+  --bg-tertiary: var(--color-light-gray);
+
+  --text-primary: var(--color-black);
+  --text-secondary: var(--color-gray);
+  --text-heading: var(--color-black);
+
+  --border-color: var(--color-light-gray);
+  --line-color: var(--color-light-gray);
+}
+
+[data-theme='dark'] {
+  --bg-primary: var(--color-darker-gray);
+  --bg-secondary: var(--color-dark-gray);
+  --bg-tertiary: var(--color-medium-gray);
+
+  --text-primary: var(--color-white);
+  --text-secondary: var(--color-gray);
+  --text-heading: var(--color-white);
+
+  --border-color: var(--color-medium-gray);
+  --line-color: var(--color-medium-gray);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size-body-l);
+  line-height: var(--line-height-body-l);
+  font-weight: var(--font-weight-medium);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

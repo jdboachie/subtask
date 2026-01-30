@@ -1,0 +1,13 @@
+<img src="/icon-light-theme.svg" alt="" width="19" height="19" />
+
+<button
+  class="switch"
+  ngpSwitch
+  [ngpSwitchChecked]="isDarkMode()"
+  (ngpSwitchCheckedChange)="onToggle($event)"
+  aria-label="Toggle dark mode"
+>
+  <span class="thumb" ngpSwitchThumb></span>
+</button>
+
+<img src="/icon-dark-theme.svg" alt="" width="16" height="16" />

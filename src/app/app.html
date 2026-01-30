@@ -1,8 +1,8 @@
 <app-sidebar
-  [boards]="boards()"
-  [activeBoardId]="activeBoardId()"
+  [boards]="appState.boards()"
+  [activeBoardIndex]="appState.currentBoardIndex()"
   [hidden]="sidebarHidden()"
-  (boardSelect)="activeBoardId.set($event)"
+  (boardSelect)="appState.selectBoard($event)"
   (createBoard)="onCreateBoard()"
   (hide)="sidebarHidden.set(true)"
 />
@@ -15,28 +15,15 @@
 ></button>
 }
 
-<main class="demo" [class.sidebar-visible]="!sidebarHidden()">
-  <h1>Theme Toggle Demo</h1>
-  <app-theme-toggle />
+<div class="main-content" [class.sidebar-visible]="!sidebarHidden()">
+  <app-header-bar
+    [boardName]="appState.currentBoard()?.name ?? ''"
+    [sidebarHidden]="sidebarHidden()"
+    [addTaskDisabled]="addTaskDisabled()"
+    (addTask)="onAddTask()"
+  />
 
-  <section class="button-demo">
-    <h2>Button Demo</h2>
-
-    <div class="button-row">
-      <button app-button size="lg" variant="primary">Button Primary (L)</button>
-      <button app-button size="sm" variant="primary">Button Primary (S)</button>
-      <button app-button size="lg" variant="secondary">Button Secondary</button>
-      <button app-button size="lg" variant="destructive">Button Destructive</button>
-    </div>
-
-    <h3>Disabled</h3>
-    <div class="button-row">
-      <button app-button size="lg" variant="primary" disabled>Button Primary (L)</button>
-      <button app-button size="sm" variant="primary" disabled>Button Primary (S)</button>
-      <button app-button size="lg" variant="secondary" disabled>Button Secondary</button>
-      <button app-button size="lg" variant="destructive" disabled>Button Destructive</button>
-    </div>
-  </section>
-</main>
+  <main class="board-area"></main>
+</div>
 
 <router-outlet />

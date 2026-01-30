@@ -17,7 +17,7 @@
 
 <div class="main-content" [class.sidebar-visible]="!sidebarHidden()">
   <app-header-bar
-    [boardName]="appState.currentBoard()?.name ?? ''"
+    [boardName]="appState.currentBoard().name"
     [sidebarHidden]="sidebarHidden()"
     [addTaskDisabled]="addTaskDisabled()"
     (addTask)="onAddTask()"

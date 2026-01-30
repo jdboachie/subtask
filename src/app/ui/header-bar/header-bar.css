@@ -1,0 +1,56 @@
+:host {
+  display: flex;
+  align-items: center;
+  height: 96px;
+  padding-inline: 1.5rem;
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid var(--line-color);
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding-right: 1.5rem;
+  margin-right: 1.5rem;
+  border-right: 1px solid var(--line-color);
+}
+
+.board-title {
+  flex: 1;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-xl);
+  color: var(--text-heading);
+  margin: 0;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.options-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: none;
+  border-radius: 0.25rem;
+  background-color: transparent;
+  color: var(--color-gray);
+  cursor: pointer;
+  transition: color 150ms ease;
+}
+
+.options-button:hover {
+  color: var(--color-primary);
+}
+
+.options-button:focus-visible {
+  outline: 2px solid var(--color-primary-light);
+  outline-offset: 2px;
+}

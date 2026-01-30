@@ -1,0 +1,11 @@
+{
+  "servers": {
+    "ngp-mcp": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@ng-primitives/mcp"
+      ]
+    }
+  }
+}

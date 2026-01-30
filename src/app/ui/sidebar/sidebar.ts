@@ -1,12 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
+import { Board } from '../../board/board.model';
 import { Theme } from '../theme';
 import { ThemeToggle } from '../theme-toggle/theme-toggle';
 import { SidebarButton } from './sidebar-button';
-
-export interface Board {
-  id: string;
-  name: string;
-}
 
 @Component({
   selector: 'app-sidebar',
@@ -21,17 +17,13 @@ export interface Board {
 export class Sidebar {
   protected readonly theme = inject(Theme);
 
-  readonly boards = input<Board[]>([]);
-  readonly activeBoardId = input<string | null>(null);
+  readonly boards = input<readonly Board[]>([]);
+  readonly activeBoardIndex = input<number>(0);
   readonly hidden = input(false);
 
-  readonly boardSelect = output<string>();
+  readonly boardSelect = output<number>();
   readonly createBoard = output<void>();
   readonly hide = output<void>();
 
   protected readonly boardCount = computed(() => this.boards().length);
-
-  protected readonly logoSrc = computed(() =>
-    this.theme.resolvedTheme() === 'dark' ? '/logo-light.svg' : '/logo-dark.svg',
-  );
 }

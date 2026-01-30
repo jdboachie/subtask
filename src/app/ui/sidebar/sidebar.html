@@ -10,13 +10,9 @@
   <h2 class="nav-heading">ALL BOARDS ({{ boards().length }})</h2>
 
   <ul class="board-list" role="list">
-    @for (board of boards(); track board.id) {
+    @for (board of boards(); track board.name; let i = $index) {
     <li>
-      <button
-        app-sidebar-button
-        [active]="board.id === activeBoardId()"
-        (click)="boardSelect.emit(board.id)"
-      >
+      <button app-sidebar-button [active]="i === activeBoardIndex()" (click)="boardSelect.emit(i)">
         {{ board.name }}
       </button>
     </li>

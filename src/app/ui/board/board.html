@@ -1,0 +1,14 @@
+@if (currentBoard(); as board) { @if (isEmpty()) {
+<div class="empty-state">
+  <p class="empty-message">This board is empty. Create a new column to get started.</p>
+  <button app-button (click)="addColumn.emit()">+ Add New Column</button>
+</div>
+} @else {
+<div cdkDropListGroup class="columns">
+  @for (column of board.columns; track column.name; let i = $index) {
+  <app-column [column]="column" [columnIndex]="i" (taskDrop)="onTaskDrop($event)" />
+  }
+</div>
+} } @else {
+<p class="no-board">No board selected</p>
+}

@@ -1,0 +1,29 @@
+:host {
+  display: block;
+  padding: 1.5rem 1rem;
+  background-color: var(--bg-secondary);
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(54, 78, 126, 0.1);
+  cursor: grab;
+}
+
+:host:hover .task-title {
+  color: var(--color-primary);
+}
+
+.task-title {
+  font-size: var(--font-size-m);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-m);
+  color: var(--text-heading);
+  margin: 0;
+  transition: color 150ms ease;
+}
+
+.subtask-count {
+  font-size: var(--font-size-body-m);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-body-m);
+  color: var(--color-gray);
+  margin: 0.5rem 0 0;
+}

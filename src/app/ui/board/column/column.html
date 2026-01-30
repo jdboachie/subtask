@@ -1,0 +1,12 @@
+<h3 class="column-name">{{ column().name }} ({{ taskCount() }})</h3>
+
+<div
+  cdkDropList
+  [cdkDropListData]="{ tasks: column().tasks, columnIndex: columnIndex() }"
+  (cdkDropListDropped)="onDrop($event)"
+  class="task-list"
+>
+  @for (task of column().tasks; track task.title) {
+  <app-task [task]="task" cdkDrag />
+  }
+</div>

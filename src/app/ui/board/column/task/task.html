@@ -1,0 +1,4 @@
+<p class="task-title">{{ task().title }}</p>
+@if (totalCount() > 0) {
+<p class="subtask-count">{{ completedCount() }} of {{ totalCount() }} subtasks</p>
+}

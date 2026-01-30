@@ -1,0 +1,35 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.columns {
+  display: flex;
+  gap: 1.5rem;
+  height: 100%;
+}
+
+.empty-state {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.empty-message {
+  font-size: var(--font-size-l);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-l);
+  color: var(--color-gray);
+  text-align: center;
+  margin: 0;
+}
+
+.no-board {
+  font-size: var(--font-size-body-l);
+  color: var(--text-secondary);
+  margin: 0;
+}

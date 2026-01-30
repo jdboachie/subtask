@@ -22,8 +22,11 @@ export class AppState {
 
   readonly currentBoard = computed(() => {
     const boards = this.boards();
-    const index = this.selectedBoardIndex();
-    return boards[index] ?? null;
+    if (boards.length > 0) {
+      const index = this.selectedBoardIndex();
+      return boards[index] ?? null;
+    }
+    return null
   });
 
   readonly currentBoardIndex = this.selectedBoardIndex.asReadonly();

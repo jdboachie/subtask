@@ -10,11 +10,11 @@
   <h2 class="nav-heading">ALL BOARDS ({{ boards().length }})</h2>
 
   <ul class="board-list" role="list">
-    @for (board of boards(); track board.name; let i = $index) {
+    @for (board of boards(); track board.id) {
     <li>
-      <button app-sidebar-button [active]="i === activeBoardIndex()" (click)="boardSelect.emit(i)">
+      <a app-sidebar-button [routerLink]="['/boards', board.id]" routerLinkActive="active">
         {{ board.name }}
-      </button>
+      </a>
     </li>
     }
     <li>

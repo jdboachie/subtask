@@ -8,6 +8,10 @@ export interface MoveTaskEvent {
   targetTaskIndex: number;
 }
 
+function generateId(): string {
+  return crypto.randomUUID();
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -27,40 +31,86 @@ export class AppState {
   readonly boards = computed(() => this.boardsOverride() ?? this.boardsResource.value() ?? []);
   readonly boardCount = computed(() => this.boards().length);
 
-  private readonly selectedBoardIndex = signal<number>(0);
+  private readonly selectedBoardId = signal<string | null>(null);
 
   readonly currentBoard = computed(() => {
     const boards = this.boards();
-    if (boards.length > 0) {
-      const index = this.selectedBoardIndex();
-      return boards[index] ?? null;
+    const selectedId = this.selectedBoardId();
+
+    if (boards.length === 0) {
+      return null;
     }
-    return null;
+
+    if (selectedId) {
+      const board = boards.find((b) => b.id === selectedId);
+      if (board) {
+        return board;
+      }
+    }
+
+    return boards[0] ?? null;
   });
 
-  readonly currentBoardIndex = this.selectedBoardIndex.asReadonly();
+  readonly currentBoardIndex = computed(() => {
+    const boards = this.boards();
+    const current = this.currentBoard();
+    if (!current) {
+      return -1;
+    }
+    return boards.findIndex((b) => b.id === current.id);
+  });
 
   selectBoard(index: number): void {
     const boards = this.boards();
     if (index >= 0 && index < boards.length) {
-      this.selectedBoardIndex.set(index);
+      const board = boards[index];
+      this.selectedBoardId.set(board.id);
+    }
+  }
+
+  selectBoardById(id: string): void {
+    const boards = this.boards();
+    const board = boards.find((b) => b.id === id);
+    if (board) {
+      this.selectedBoardId.set(id);
     }
   }
 
   selectBoardByName(name: string): void {
-    const index = this.boards().findIndex((board) => board.name === name);
-    if (index !== -1) {
-      this.selectedBoardIndex.set(index);
+    const boards = this.boards();
+    const board = boards.find((b) => b.name === name);
+    if (board) {
+      this.selectedBoardId.set(board.id);
     }
+  }
+
+  getBoardById(id: string): Board | null {
+    return this.boards().find((b) => b.id === id) ?? null;
+  }
+
+  createBoard(name: string): Board {
+    const newBoard: Board = {
+      id: generateId(),
+      name,
+      columns: [],
+    };
+
+    const boards = this.boards();
+    this.boardsOverride.set([...boards, newBoard]);
+    this.selectedBoardId.set(newBoard.id);
+
+    return newBoard;
   }
 
   moveTask(event: MoveTaskEvent): void {
     const { sourceColumnIndex, targetColumnIndex, sourceTaskIndex, targetTaskIndex } = event;
     const boards = this.boards();
-    const boardIndex = this.selectedBoardIndex();
-    const board = boards[boardIndex];
+    const board = this.currentBoard();
 
     if (!board) return;
+
+    const boardIndex = boards.findIndex((b) => b.id === board.id);
+    if (boardIndex === -1) return;
 
     const sourceColumn = board.columns[sourceColumnIndex];
     const targetColumn = board.columns[targetColumnIndex];

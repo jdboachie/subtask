@@ -4,7 +4,7 @@ import { NgpButton } from 'ng-primitives/button';
 export type SidebarButtonVariant = 'default' | 'create';
 
 @Component({
-  selector: 'button[app-sidebar-button]',
+  selector: 'button[app-sidebar-button], a[app-sidebar-button]',
   hostDirectives: [NgpButton],
   template: `
     <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg">
@@ -31,6 +31,7 @@ export type SidebarButtonVariant = 'default' | 'create';
       font-size: var(--font-size-m);
       font-weight: var(--font-weight-bold);
       line-height: var(--line-height-m);
+      text-decoration: none;
       cursor: pointer;
       transition:
         background-color 150ms ease,
@@ -42,11 +43,13 @@ export type SidebarButtonVariant = 'default' | 'create';
       color: var(--color-primary);
     }
 
+    :host.active,
     :host[data-active='true'] {
       background-color: var(--color-primary);
       color: var(--color-white);
     }
 
+    :host.active[data-hover],
     :host[data-active='true'][data-hover] {
       background-color: var(--color-primary);
       color: var(--color-white);

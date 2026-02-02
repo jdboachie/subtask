@@ -18,6 +18,7 @@ export class BoardView {
   readonly currentBoard = input<Board | null>(null);
 
   readonly addColumn = output<void>();
+  readonly taskMoved = output<void>();
 
   protected readonly isEmpty = computed(() => {
     const board = this.currentBoard();
@@ -26,5 +27,6 @@ export class BoardView {
 
   protected onTaskDrop(event: ColumnDropEvent): void {
     this.appState.moveTask(event);
+    this.taskMoved.emit();
   }
 }

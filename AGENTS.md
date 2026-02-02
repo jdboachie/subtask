@@ -56,4 +56,5 @@ You are an expert in TypeScript, Angular, and scalable web application developme
 
 ## Others
 
+- Where you have to make changes to a file, use targeted edits instead of overwriting the entire file.
 - Do not add comments to any code you generate unless explicitly asked to do so

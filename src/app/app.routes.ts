@@ -7,6 +7,7 @@ import { BoardDetailsPage } from './pages/board-details/board-details';
 import { BoardsPage } from './pages/boards/boards';
 import { LoginPage } from './pages/login/login';
 import { NotFoundPage } from './pages/not-found/not-found';
+import { SettingsPage } from './pages/settings/settings';
 
 export const routes: Routes = [
   {
@@ -34,6 +35,11 @@ export const routes: Routes = [
         canDeactivate: [unsavedChangesGuard],
       },
     ],
+  },
+  {
+    path: 'settings',
+    component: SettingsPage,
+    canActivate: [authGuard],
   },
   {
     path: '**',

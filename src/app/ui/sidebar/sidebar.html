@@ -26,6 +26,16 @@
 </nav>
 
 <div class="sidebar-footer">
+  <a routerLink="/settings" class="settings-link">
+    <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path
+        d="M8 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm0 1.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7ZM14.5 8a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0ZM8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0Z"
+        fill="currentColor"
+      />
+    </svg>
+    Settings
+  </a>
+
   <app-theme-toggle style="margin-left: 1.5rem" />
 
   <button aria-label="Hide Sidebar" class="hide-button" (click)="hide.emit()">

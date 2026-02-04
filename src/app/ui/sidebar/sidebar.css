@@ -61,6 +61,36 @@
   flex-shrink: 0;
 }
 
+.settings-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 276px;
+  height: 3rem;
+  padding-inline: 1.5rem;
+  border-radius: 0 100px 100px 0;
+  background-color: transparent;
+  color: var(--color-gray);
+  font-family: var(--font-family);
+  font-size: var(--font-size-m);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-m);
+  text-decoration: none;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+.settings-link:hover {
+  background-color: var(--sidebar-btn-hover-bg);
+  color: var(--color-primary);
+}
+
+.settings-link:focus-visible {
+  outline: 2px solid var(--color-primary-light);
+  outline-offset: 2px;
+}
+
 .hide-button {
   display: flex;
   align-items: center;

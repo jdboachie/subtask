@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppState } from '../../app-state';
+import { AppState } from '../../../../app-state';
 
 @Component({
   selector: 'app-boards-page',

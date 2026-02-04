@@ -1,16 +1,15 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Button } from '../../ui/button/button';
 
 @Component({
   selector: 'app-not-found-page',
-  imports: [RouterLink, Button],
+  imports: [RouterLink],
   template: `
     <div class="container">
       <h1 class="title">404</h1>
       <p class="message">Page not found</p>
       <p class="description">The page you're looking for doesn't exist or has been moved.</p>
-      <a routerLink="/boards" app-button>Go to Boards</a>
+      <a routerLink="/boards">Go to Boards</a>
     </div>
   `,
   styles: `

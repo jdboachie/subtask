@@ -7,9 +7,9 @@ import {
   input,
   signal,
 } from '@angular/core';
-import { HasUnsavedChanges } from '../../auth';
-import { AppState } from '../../app-state';
-import { BoardView } from '../../ui/board/board';
+import { HasUnsavedChanges } from '../../../../auth';
+import { AppState } from '../../../../app-state';
+import { BoardView } from '../../../../ui/board/board';
 
 @Component({
   selector: 'app-board-details-page',

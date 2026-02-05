@@ -7,16 +7,27 @@ import {
   input,
   signal,
 } from '@angular/core';
+import { Router } from '@angular/router';
 import { HasUnsavedChanges } from '../../../../auth';
 import { AppState } from '../../../../app-state';
 import { BoardView } from '../../../../ui/board/board';
+import { FilterBar } from '../../../../ui/filter-bar/filter-bar';
 
 @Component({
   selector: 'app-board-details-page',
-  imports: [BoardView],
+  imports: [BoardView, FilterBar],
   template: `
     @if (board(); as board) {
-      <app-board [currentBoard]="board" (addColumn)="onAddColumn()" (taskMoved)="onTaskMoved()" />
+      <app-filter-bar
+        [columns]="columnNames()"
+        [currentFilter]="filter()"
+        (filterChange)="onFilterChange($event)"
+      />
+      <app-board
+        [currentBoard]="filteredBoard()"
+        (addColumn)="onAddColumn()"
+        (taskMoved)="onTaskMoved()"
+      />
     } @else if (!isLoading()) {
       <div class="not-found">
         <p>Board not found</p>
@@ -42,8 +53,10 @@ import { BoardView } from '../../../../ui/board/board';
 })
 export class BoardDetailsPage implements HasUnsavedChanges {
   private readonly appState = inject(AppState);
+  private readonly router = inject(Router);
 
   readonly id = input.required<string>();
+  readonly filter = input<string | null>(null);
 
   protected readonly isLoading = this.appState.isLoading;
   private readonly dirty = signal(false);
@@ -51,6 +64,21 @@ export class BoardDetailsPage implements HasUnsavedChanges {
   protected readonly board = computed(() => {
     const id = this.id();
     return this.appState.getBoardById(id);
+  });
+
+  protected readonly columnNames = computed(() => {
+    const board = this.board();
+    return board ? board.columns.map((c) => c.name) : [];
+  });
+
+  protected readonly filteredBoard = computed(() => {
+    const board = this.board();
+    const filter = this.filter();
+    if (!board || !filter) return board;
+    return {
+      ...board,
+      columns: board.columns.filter((c) => c.name === filter),
+    };
   });
 
   constructor() {
@@ -74,5 +102,12 @@ export class BoardDetailsPage implements HasUnsavedChanges {
 
   protected onTaskMoved(): void {
     this.dirty.set(true);
+  }
+
+  protected onFilterChange(filter: string | null): void {
+    this.router.navigate([], {
+      queryParams: { filter },
+      queryParamsHandling: filter ? 'merge' : null,
+    });
   }
 }

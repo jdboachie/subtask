@@ -1,0 +1,14 @@
+<div class="filter-bar">
+  <label for="column-filter" class="filter-label">Filter by column:</label>
+  <select
+    id="column-filter"
+    class="filter-select"
+    [value]="currentFilter() ?? ''"
+    (change)="onFilterChange($event)"
+  >
+    <option value="">All columns</option>
+    @for (column of columns(); track column) {
+    <option [value]="column">{{ column }}</option>
+    }
+  </select>
+</div>

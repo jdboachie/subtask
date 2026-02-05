@@ -1,0 +1,36 @@
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.filter-label {
+  font-size: var(--font-size-s);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-secondary);
+}
+
+.filter-select {
+  height: 2rem;
+  padding-inline: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.25rem;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-family);
+  font-size: var(--font-size-s);
+  cursor: pointer;
+  transition: border-color 150ms ease;
+}
+
+.filter-select:hover {
+  border-color: var(--color-primary);
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}

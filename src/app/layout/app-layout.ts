@@ -8,35 +8,7 @@ import { ShowSidebarButton } from '../ui/sidebar/show-sidebar-button';
 @Component({
   selector: 'app-layout',
   imports: [RouterOutlet, Sidebar, ShowSidebarButton, HeaderBar],
-  template: `
-    <app-sidebar
-      [boards]="appState.boards()"
-      [hidden]="sidebarHidden()"
-      (createBoard)="onCreateBoard()"
-      (hide)="sidebarHidden.set(true)"
-    />
-
-    @if (sidebarHidden()) {
-      <button
-        app-show-sidebar-button
-        (click)="sidebarHidden.set(false)"
-        aria-label="Show sidebar"
-      ></button>
-    }
-
-    <div class="main-content" [class.sidebar-visible]="!sidebarHidden()">
-      <app-header-bar
-        [boardName]="appState.currentBoard()?.name ?? ''"
-        [sidebarHidden]="sidebarHidden()"
-        [addTaskDisabled]="addTaskDisabled()"
-        (addTask)="onAddTask()"
-      />
-
-      <main class="board-area">
-        <router-outlet />
-      </main>
-    </div>
-  `,
+  templateUrl: './app-layout.html',
   styleUrl: './app-layout.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

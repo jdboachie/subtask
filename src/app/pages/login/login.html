@@ -1,0 +1,43 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="logo">
+      <img src="/logo-dark.svg" alt="kanban" width="153" height="26" />
+    </div>
+
+    <h1 class="title">Sign in to your account</h1>
+
+    <form class="form" (ngSubmit)="onSubmit()">
+      <div class="field">
+        <label for="username" class="label">Username</label>
+        <input
+          id="username"
+          type="text"
+          class="input"
+          [(ngModel)]="username"
+          name="username"
+          autocomplete="username"
+          required
+        />
+      </div>
+
+      <div class="field">
+        <label for="password" class="label">Password</label>
+        <input
+          id="password"
+          type="password"
+          class="input"
+          [(ngModel)]="password"
+          name="password"
+          autocomplete="current-password"
+          required
+        />
+      </div>
+
+      @if (error()) {
+        <p class="error" role="alert">{{ error() }}</p>
+      }
+
+      <button app-button type="submit" class="submit-btn">Sign In</button>
+    </form>
+  </div>
+</div>

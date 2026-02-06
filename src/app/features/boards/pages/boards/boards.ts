@@ -4,11 +4,7 @@ import { AppState } from '../../../../app-state';
 
 @Component({
   selector: 'app-boards-page',
-  template: `
-    <div class="loading">
-      <p>Loading boards...</p>
-    </div>
-  `,
+  templateUrl: './boards.html',
   styles: `
     .loading {
       display: flex;

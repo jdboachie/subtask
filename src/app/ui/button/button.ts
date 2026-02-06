@@ -7,7 +7,7 @@ export type ButtonVariant = 'primary' | 'secondary' | 'destructive';
 @Component({
   selector: 'button[app-button]',
   hostDirectives: [{ directive: NgpButton, inputs: ['disabled'] }],
-  template: `<ng-content />`,
+  templateUrl: './button.html',
   styleUrl: './button.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {

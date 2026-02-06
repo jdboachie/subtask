@@ -1,0 +1,27 @@
+<app-sidebar
+  [boards]="appState.boards()"
+  [hidden]="sidebarHidden()"
+  (createBoard)="onCreateBoard()"
+  (hide)="sidebarHidden.set(true)"
+/>
+
+@if (sidebarHidden()) {
+  <button
+    app-show-sidebar-button
+    (click)="sidebarHidden.set(false)"
+    aria-label="Show sidebar"
+  ></button>
+}
+
+<div class="main-content" [class.sidebar-visible]="!sidebarHidden()">
+  <app-header-bar
+    [boardName]="appState.currentBoard()?.name ?? ''"
+    [sidebarHidden]="sidebarHidden()"
+    [addTaskDisabled]="addTaskDisabled()"
+    (addTask)="onAddTask()"
+  />
+
+  <main class="board-area">
+    <router-outlet></router-outlet>
+  </main>
+</div>

@@ -16,24 +16,7 @@ import { FilterBar } from '../../../../ui/filter-bar/filter-bar';
 @Component({
   selector: 'app-board-details-page',
   imports: [BoardView, FilterBar],
-  template: `
-    @if (board(); as board) {
-      <app-filter-bar
-        [columns]="columnNames()"
-        [currentFilter]="filter()"
-        (filterChange)="onFilterChange($event)"
-      />
-      <app-board
-        [currentBoard]="filteredBoard()"
-        (addColumn)="onAddColumn()"
-        (taskMoved)="onTaskMoved()"
-      />
-    } @else if (!isLoading()) {
-      <div class="not-found">
-        <p>Board not found</p>
-      </div>
-    }
-  `,
+  templateUrl: './board-details.html',
   styles: `
     :host {
       display: block;

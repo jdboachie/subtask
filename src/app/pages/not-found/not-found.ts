@@ -4,14 +4,7 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-not-found-page',
   imports: [RouterLink],
-  template: `
-    <div class="container">
-      <h1 class="title">404</h1>
-      <p class="message">Page not found</p>
-      <p class="description">The page you're looking for doesn't exist or has been moved.</p>
-      <a routerLink="/boards">Go to Boards</a>
-    </div>
-  `,
+  templateUrl: './not-found.html',
   styles: `
     :host {
       display: flex;

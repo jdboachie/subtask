@@ -5,7 +5,7 @@ import { Theme } from './ui/theme';
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet],
-  template: `<router-outlet />`,
+  templateUrl: './app.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class App {

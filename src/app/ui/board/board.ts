@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
 import { CdkDropListGroup } from '@angular/cdk/drag-drop';
 import { AppState } from '../../app-state';
 import { Board } from './board.model';
@@ -19,11 +19,6 @@ export class BoardView {
 
   readonly addColumn = output<void>();
   readonly taskMoved = output<void>();
-
-  protected readonly isEmpty = computed(() => {
-    const board = this.currentBoard();
-    return !board || board.columns.length === 0;
-  });
 
   protected onTaskDrop(event: ColumnDropEvent): void {
     this.appState.moveTask(event);

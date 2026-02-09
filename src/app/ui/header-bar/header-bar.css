@@ -18,6 +18,11 @@
   border-right: 1px solid var(--line-color);
 }
 
+.logo-section img {
+  width: 153px;
+  height: 26px;
+}
+
 .board-title {
   flex: 1;
   font-size: var(--font-size-xl);
@@ -31,6 +36,15 @@
   display: flex;
   align-items: center;
   gap: 1rem;
+}
+
+.add-task-button .icon {
+  margin-right: 0.5rem;
+}
+
+.add-task-button-mobile {
+  max-height: 32px;
+  display: none;
 }
 
 .options-button {
@@ -55,4 +69,35 @@
 .options-button:focus-visible {
   outline: 2px solid var(--color-primary-light);
   outline-offset: 2px;
+}
+
+@media (max-width: 640px) {
+  :host {
+    height: 64px;
+  }
+
+  .logo-section {
+    border-right: none;
+    margin-right: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  .logo-section img {
+    margin-top: 35%;
+    width: 24px;
+    height: 25px;
+  }
+
+  .board-title {
+    font-size: var(--font-size-l);
+  }
+
+  .add-task-button {
+    display: none;
+  }
+
+  .add-task-button-mobile {
+    display: inline;
+  }
 }

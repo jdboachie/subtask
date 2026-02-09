@@ -1,13 +1,33 @@
 @if (sidebarHidden()) {
 <div class="logo-section">
-  <img [src]="logoSrc()" alt="kanban" width="153" height="26" />
+  <picture>
+    <source media="(max-width: 640px)" srcset="/logo-mobile.svg" />
+    <img [src]="logoSrc()" alt="kanban" />
+  </picture>
 </div>
 }
 
 <h1 class="board-title">{{ boardName() }}</h1>
 
 <div class="actions">
-  <button app-button [disabled]="addTaskDisabled()" (click)="addTask.emit()">+ Add New Task</button>
+  <button
+    app-button
+    [disabled]="addTaskDisabled()"
+    (click)="addTask.emit()"
+    aria-label="Add New Task"
+    class="add-task-button"
+  >
+    <span class="icon">+</span><span class="label">Add New Task</span>
+  </button>
+  <button
+    app-button
+    [disabled]="addTaskDisabled()"
+    (click)="addTask.emit()"
+    aria-label="Add New Task"
+    class="add-task-button-mobile"
+  >
+    <img src="/icon-add-task-mobile.svg" alt="add-task-icon" />
+  </button>
 
   <button type="button" class="options-button" aria-label="Board options">
     <svg width="5" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">

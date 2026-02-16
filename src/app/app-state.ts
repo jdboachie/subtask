@@ -184,13 +184,13 @@ export class AppState {
 
     this.boardsOverride.set(newBoards);
   }
-  
+
   addColumn(name: string) {
     const boards = this.boards();
     const board = this.currentBoard();
-    
+
     if (!board) return;
-    
+
     const boardIndex = boards.findIndex((b) => b.id === board.id);
     if (boardIndex === -1) return;
 

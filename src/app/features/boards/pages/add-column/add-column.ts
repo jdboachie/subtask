@@ -19,9 +19,9 @@ export class AddColumnPage {
   protected readonly isOpen = signal(true);
 
   protected readonly form = inject(FormBuilder).group({
-    name: ['', [Validators.required]]
-  })
-  
+    name: ['', [Validators.required]],
+  });
+
   protected onClose(): void {
     this.isOpen.set(false);
     this.router.navigate(['/boards', this.appState.currentBoard()!.id]);

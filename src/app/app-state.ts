@@ -1,5 +1,5 @@
 import { computed, Injectable, resource, signal } from '@angular/core';
-import { Board, BoardData, Task } from './ui/board/board.model';
+import { Board, BoardData, Task, Subtask } from './ui/board/board.model';
 
 export interface MoveTaskEvent {
   sourceColumnIndex: number;
@@ -150,6 +150,51 @@ export class AppState {
 
       return column;
     });
+
+    const newBoard: Board = { ...board, columns: newColumns };
+    const newBoards = boards.map((b, i) => (i === boardIndex ? newBoard : b));
+
+    this.boardsOverride.set(newBoards);
+  }
+
+  addTask(status: string, title: string, description: string, subtasks: readonly Subtask[]): void {
+    const boards = this.boards();
+    const board = this.currentBoard();
+
+    if (!board) return;
+
+    const boardIndex = boards.findIndex((b) => b.id === board.id);
+    if (boardIndex === -1) return;
+
+    const columns = board.columns.map((column) => {
+      if (column.name === status) {
+        const newTask: Task = {
+          title,
+          description,
+          status: column.name,
+          subtasks,
+        };
+        return { ...column, tasks: [...column.tasks, newTask] };
+      }
+      return column;
+    });
+
+    const newBoard: Board = { ...board, columns };
+    const newBoards = boards.map((b, i) => (i === boardIndex ? newBoard : b));
+
+    this.boardsOverride.set(newBoards);
+  }
+  
+  addColumn(name: string) {
+    const boards = this.boards();
+    const board = this.currentBoard();
+    
+    if (!board) return;
+    
+    const boardIndex = boards.findIndex((b) => b.id === board.id);
+    if (boardIndex === -1) return;
+
+    const newColumns = [...board.columns, { name, tasks: [] as Task[] }];
 
     const newBoard: Board = { ...board, columns: newColumns };
     const newBoards = boards.map((b, i) => (i === boardIndex ? newBoard : b));

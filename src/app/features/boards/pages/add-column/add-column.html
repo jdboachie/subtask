@@ -1,0 +1,11 @@
+<app-modal title="Add New Column" [open]="isOpen()" (close)="onClose()">
+  <form class="new-column" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <h2>Add New Column</h2>
+
+    <label class="field">
+      <span class="label">Column name</span>
+      <input type="text" formControlName="name" placeholder="new column">
+    </label>
+    <button app-button type="submit">Add New Column</button>
+  </form>
+</app-modal>

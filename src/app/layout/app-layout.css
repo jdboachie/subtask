@@ -17,7 +17,8 @@
 }
 
 @media (max-width: 640px) {
-  .main-content, .main-content.main-content.sidebar-visible {
+  .main-content,
+  .main-content.main-content.sidebar-visible {
     margin-left: 0px;
   }
 }

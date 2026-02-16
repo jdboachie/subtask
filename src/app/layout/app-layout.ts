@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { AppState } from '../app-state';
 import { HeaderBar } from '../ui/header-bar/header-bar';
 import { Sidebar } from '../ui/sidebar/sidebar';
@@ -14,6 +14,7 @@ import { ShowSidebarButton } from '../ui/sidebar/show-sidebar-button';
 })
 export class AppLayout {
   protected appState = inject(AppState);
+  private readonly router = inject(Router);
 
   protected readonly sidebarHidden = signal(false);
 
@@ -27,6 +28,9 @@ export class AppLayout {
   }
 
   protected onAddTask(): void {
-    console.log('Add new task');
+    if (this.addTaskDisabled()) {
+      return;
+    }
+    this.router.navigateByUrl(`/boards/${this.appState.currentBoard()!.id}/new-task`);
   }
 }

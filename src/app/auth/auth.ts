@@ -41,7 +41,6 @@ export class AuthService {
 
   private saveUserToStorage(user: User): void {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
-    
   }
 
   private removeUserFromStorage(): void {

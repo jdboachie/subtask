@@ -7,7 +7,7 @@ import {
   input,
   signal,
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { HasUnsavedChanges } from '../../../../auth';
 import { AppState } from '../../../../app-state';
 import { BoardView } from '../../../../ui/board/board';
@@ -15,7 +15,7 @@ import { FilterBar } from '../../../../ui/filter-bar/filter-bar';
 
 @Component({
   selector: 'app-board-details-page',
-  imports: [BoardView, FilterBar],
+  imports: [BoardView, FilterBar, RouterOutlet],
   templateUrl: './board-details.html',
   styles: `
     :host {

@@ -17,7 +17,9 @@ export class Modal {
   readonly close = output<void>();
   readonly confirm = output<void>();
 
-  protected readonly titleId = computed(() => `modal-title-${Math.random().toString(36).slice(2, 9)}`);
+  protected readonly titleId = computed(
+    () => `modal-title-${Math.random().toString(36).slice(2, 9)}`,
+  );
 
   protected onBackdropKeydown(event: KeyboardEvent): void {
     if (event.key === 'Escape') {

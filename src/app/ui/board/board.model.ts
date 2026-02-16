@@ -18,7 +18,7 @@ export interface Column {
 export interface Board {
   readonly id: string;
   readonly name: string;
-  readonly columns: readonly Column[];
+  columns: Column[];
 }
 
 export interface BoardData {

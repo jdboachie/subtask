@@ -1,0 +1,43 @@
+<app-modal title="Add New Task" [open]="isOpen()" (close)="onClose()">
+  <form class="new-task" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <h2>Add New Task</h2>
+
+    <label for="title" class="field">
+      <span class="label">Title</span>
+      <input id="title" type="text" formControlName="title" placeholder="e.g. Take coffee break" />
+    </label>
+    <label class="field">
+      <span class="label">Description</span>
+      <textarea
+        id="description"
+        class="description-editor"
+        type="text"
+        placeholder="e.g. It's always good to take a break. This 15 minute break will recharge the batteries a little."
+        formControlName="description"
+      ></textarea>
+    </label>
+    <div class="field">
+      <span class="label">Subtasks</span>
+      <div class="subtasks" formArrayName="subtasks">
+        @for (subCtrl of subtasks.controls; track subCtrl; let idx = $index) {
+          <div class="subtask-row">
+            <input [formControlName]="idx" type="text" placeholder="e.g. Make coffee" />
+            <button type="button" class="remove" (click)="removeSubTask(idx)">×</button>
+          </div>
+        }
+      </div>
+      <button app-button type="button" class="add" variant="secondary" (click)="addNewSubTask()">
+        + Add New Subtask
+      </button>
+    </div>
+    <div class="field">
+      <span class="label">Status</span>
+      <select formControlName="status">
+        @for (column of columns(); track column.name) {
+          <option [value]="column.name">{{ column.name }}</option>
+        }
+      </select>
+    </div>
+    <button app-button type="submit" class="create-button">Create Task</button>
+  </form>
+</app-modal>

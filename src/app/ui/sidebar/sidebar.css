@@ -101,7 +101,8 @@
 }
 
 @media (max-width: 640px) {
-  :host, .sidebar-content {
+  :host,
+  .sidebar-content {
     display: none;
   }
 }

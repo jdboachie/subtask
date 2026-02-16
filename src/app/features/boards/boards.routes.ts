@@ -16,6 +16,17 @@ export const BOARDS_ROUTES: Routes = [
         loadComponent: () =>
           import('./pages/board-details/board-details').then((m) => m.BoardDetailsPage),
         canDeactivate: [unsavedChangesGuard],
+        children: [
+          {
+            path: 'new-task',
+            loadComponent: () => import('./pages/new-task/new-task').then((m) => m.NewTaskPage),
+          },
+          {
+            path: 'new-column',
+            loadComponent: () =>
+              import('./pages/add-column/add-column').then((m) => m.AddColumnPage),
+          },
+        ],
       },
     ],
   },

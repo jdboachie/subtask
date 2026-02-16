@@ -7,7 +7,6 @@ import { ReactiveFormsModule, FormBuilder, Validators, FormArray } from '@angula
 
 @Component({
   selector: 'app-add-board',
-  standalone: true,
   imports: [CommonModule, ReactiveFormsModule, Button],
   templateUrl: './add-board.html',
   styleUrl: './add-board.css',
@@ -20,7 +19,7 @@ export class AddBoardPage {
 
   protected readonly form = this.fb.group({
     name: ['', [Validators.required, Validators.maxLength(60)]],
-    columns: this.fb.array([this.fb.control('', Validators.required)]),
+    columns: this.fb.array([this.fb.control('')]),
   });
 
   protected get columns(): FormArray {
@@ -44,7 +43,9 @@ export class AddBoardPage {
     }
 
     const name = (this.form.value.name ?? '').trim();
-    const columnNames: string[] = (this.form.value.columns as string[]).map((c) => c.trim()).filter(Boolean);
+    const columnNames: string[] = (this.form.value.columns as string[])
+      .map((c) => c.trim())
+      .filter(Boolean);
 
     const exists = this.appState.boards().some((b) => b.name.toLowerCase() === name.toLowerCase());
     if (exists) {

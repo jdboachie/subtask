@@ -1,10 +1,10 @@
 @if (sidebarHidden()) {
-<div class="logo-section">
-  <picture>
-    <source media="(max-width: 640px)" srcset="/logo-mobile.svg" />
-    <img [src]="logoSrc()" alt="kanban logo" />
-  </picture>
-</div>
+  <div class="logo-section">
+    <picture>
+      <source media="(max-width: 640px)" srcset="/logo-mobile.svg" />
+      <img [src]="logoSrc()" alt="kanban logo" />
+    </picture>
+  </div>
 }
 
 <div class="logo-section-mobile">
@@ -46,16 +46,16 @@
 </div>
 
 @if (boardListOpen()) {
-<app-modal [open]="boardListOpen()" title="ALL BOARDS (3)" (close)="onCloseBoards()">
-  <app-boards-menu [boards]="boards()" (createBoard)="onOpenAddBoard()"></app-boards-menu>
-  <div class="theme-toggle-container">
-    <app-theme-toggle />
-  </div>
-</app-modal>
+  <app-modal [open]="boardListOpen()" title="ALL BOARDS (3)" (close)="onCloseBoards()">
+    <app-boards-menu [boards]="boards()" (createBoard)="onOpenAddBoard()"></app-boards-menu>
+    <div class="theme-toggle-container">
+      <app-theme-toggle />
+    </div>
+  </app-modal>
 }
 
 @if (addBoardOpen()) {
-<app-modal [open]="addBoardOpen()" title="Add New Board" (close)="onCloseAddBoard()">
-  <app-add-board />
-</app-modal>
+  <app-modal [open]="addBoardOpen()" title="Add New Board" (close)="onCloseAddBoard()">
+    <app-add-board />
+  </app-modal>
 }

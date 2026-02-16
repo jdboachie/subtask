@@ -1,0 +1,18 @@
+<nav class="nav">
+  <h2 class="nav-heading">ALL BOARDS ({{ boards().length }})</h2>
+
+  <ul class="board-list" role="list">
+    @for (board of boards(); track board.id) {
+    <li>
+      <a app-sidebar-button [routerLink]="['/boards', board.id]" routerLinkActive="active">
+        {{ board.name }}
+      </a>
+    </li>
+    }
+    <li>
+      <button app-sidebar-button variant="create" (click)="onCreateBoard()">
+        + Create New Board
+      </button>
+    </li>
+  </ul>
+</nav>

@@ -18,6 +18,15 @@
   border-right: 1px solid var(--line-color);
 }
 
+.logo-section-mobile {
+  display: none;
+}
+
+.logo-section-mobile img {
+  display: block;
+  border: none;
+}
+
 .logo-section img {
   width: 153px;
   height: 26px;
@@ -30,6 +39,11 @@
   line-height: var(--line-height-xl);
   color: var(--text-heading);
   margin: 0;
+}
+
+.board-title-mobile {
+  display: none;
+  flex: 1;
 }
 
 .actions {
@@ -76,21 +90,38 @@
     height: 64px;
   }
 
-  .logo-section {
+  .board-title {
+    font-size: var(--font-size-l);
+  }
+
+  .logo-section-mobile {
+    padding-right: 1rem;
     border-right: none;
     margin-right: 0;
     display: flex;
     align-items: center;
   }
 
-  .logo-section img {
-    margin-top: 35%;
+  .logo-section-mobile img {
     width: 24px;
     height: 25px;
   }
 
   .board-title {
+    display: none;
+  }
+
+  .board-title-mobile {
+    display: block;
     font-size: var(--font-size-l);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.6rem;
+    border-radius: 9999px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
 
   .add-task-button {
@@ -100,4 +131,8 @@
   .add-task-button-mobile {
     display: inline;
   }
+}
+
+.theme-toggle-container {
+  padding: 20px
 }

@@ -6,26 +6,11 @@
   }
 </div>
 
-<nav class="nav">
-  <h2 class="nav-heading">ALL BOARDS ({{ boards().length }})</h2>
-
-  <ul class="board-list" role="list">
-    @for (board of boards(); track board.id) {
-    <li>
-      <a app-sidebar-button [routerLink]="['/boards', board.id]" routerLinkActive="active">
-        {{ board.name }}
-      </a>
-    </li>
-    }
-    <li>
-      <button app-sidebar-button variant="create" (click)="createBoard.emit()">
-        + Create New Board
-      </button>
-    </li>
-  </ul>
-</nav>
+<app-boards-menu [boards]="boards()" (createBoard)="createBoard.emit()"></app-boards-menu>
 
 <div class="sidebar-footer">
+  <app-theme-toggle style="margin-left: 1.5rem" />
+
   <a routerLink="/settings" class="settings-link">
     <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <path
@@ -35,9 +20,6 @@
     </svg>
     Settings
   </a>
-
-  <app-theme-toggle style="margin-left: 1.5rem" />
-
   <button aria-label="Hide Sidebar" class="hide-button" (click)="hide.emit()">
     <svg width="18" height="16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <path

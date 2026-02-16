@@ -1,0 +1,22 @@
+<div
+  class="modal-backdrop"
+  [class.open]="open()"
+  (click)="onBackdropClick($event)"
+  (keydown)="onBackdropKeydown($event)"
+  tabindex="-1"
+  role="presentation"
+  aria-hidden="{{ !open() }}"
+>
+  <div
+    class="modal-dialog"
+    [class.small]="size() === 'small'"
+    [class.large]="size() === 'large'"
+    role="document"
+    [attr.aria-labelledby]="titleId()"
+    (click)="$event.stopPropagation()"
+  >
+    <section class="modal-body">
+      <ng-content></ng-content>
+    </section>
+  </div>
+</div>

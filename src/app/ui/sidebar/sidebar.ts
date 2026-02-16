@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { Board } from '../board/board.model';
 import { Theme } from '../theme';
 import { ThemeToggle } from '../theme-toggle/theme-toggle';
-import { SidebarButton } from './sidebar-button';
+import { BoardsMenu } from './boards-menu/boards-menu';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [RouterLink, RouterLinkActive, SidebarButton, ThemeToggle],
+  imports: [RouterLink, ThemeToggle, BoardsMenu],
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

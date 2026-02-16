@@ -1,0 +1,29 @@
+:host {
+  height: 100%;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-y: auto;
+  padding-top: 32px;
+}
+
+.nav-heading {
+  padding-inline: 1.5rem;
+  margin-bottom: 1.25rem;
+  font-size: var(--font-size-s);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-s);
+  letter-spacing: var(--letter-spacing-s);
+  color: var(--color-gray);
+  text-transform: uppercase;
+}
+
+.board-list {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  padding-right: 1.5rem;
+}

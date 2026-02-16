@@ -9,8 +9,7 @@ export const BOARDS_ROUTES: Routes = [
     children: [
       {
         path: '',
-        loadComponent: () =>
-          import('./pages/boards/boards').then((m) => m.BoardsPage),
+        loadComponent: () => import('./pages/boards/boards').then((m) => m.BoardsPage),
       },
       {
         path: ':id',

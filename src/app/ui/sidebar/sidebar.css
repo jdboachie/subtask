@@ -2,7 +2,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 100;
+  z-index: 0;
   display: flex;
   flex-direction: column;
   width: 300px;
@@ -25,32 +25,6 @@
   height: 6rem;
   padding-inline: 1.5rem;
   flex-shrink: 0;
-}
-
-.nav {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  overflow-y: auto;
-  padding-top: 32px;
-}
-
-.nav-heading {
-  padding-inline: 1.5rem;
-  margin-bottom: 1.25rem;
-  font-size: var(--font-size-s);
-  font-weight: var(--font-weight-bold);
-  line-height: var(--line-height-s);
-  letter-spacing: var(--letter-spacing-s);
-  color: var(--color-gray);
-  text-transform: uppercase;
-}
-
-.board-list {
-  display: flex;
-  flex-direction: column;
-  list-style: none;
-  padding-right: 1.5rem;
 }
 
 .sidebar-footer {
@@ -124,4 +98,10 @@
 
 :host([data-hidden='true']) {
   transform: translateX(-100%);
+}
+
+@media (max-width: 640px) {
+  :host, .sidebar-content {
+    display: none;
+  }
 }

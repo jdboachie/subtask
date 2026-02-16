@@ -28,7 +28,9 @@ export class AppState {
 
   readonly isLoading = this.boardsResource.isLoading;
 
-  readonly boards = computed(() => this.boardsOverride() ?? this.boardsResource.value() ?? []);
+  readonly boards = computed<readonly Board[]>(
+    () => this.boardsOverride() ?? this.boardsResource.value() ?? [],
+  );
   readonly boardCount = computed(() => this.boards().length);
 
   private readonly selectedBoardId = signal<string | null>(null);
@@ -88,11 +90,13 @@ export class AppState {
     return this.boards().find((b) => b.id === id) ?? null;
   }
 
-  createBoard(name: string): Board {
+  createBoard(name: string, columnNames: string[] = []): Board {
+    const columns = columnNames.map((n) => ({ name: n, tasks: [] as Task[] }));
+
     const newBoard: Board = {
       id: generateId(),
       name,
-      columns: [],
+      columns,
     };
 
     const boards = this.boards();

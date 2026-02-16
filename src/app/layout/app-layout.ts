@@ -13,7 +13,7 @@ import { ShowSidebarButton } from '../ui/sidebar/show-sidebar-button';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppLayout {
-  protected readonly appState = inject(AppState);
+  protected appState = inject(AppState);
 
   protected readonly sidebarHidden = signal(false);
 
@@ -23,7 +23,7 @@ export class AppLayout {
   });
 
   protected onCreateBoard(): void {
-    console.log('Create new board');
+    window.dispatchEvent(new CustomEvent('open:add-board'));
   }
 
   protected onAddTask(): void {

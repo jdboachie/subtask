@@ -61,30 +61,6 @@
   display: none;
 }
 
-.options-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2rem;
-  height: 2rem;
-  padding: 0;
-  border: none;
-  border-radius: 0.25rem;
-  background-color: transparent;
-  color: var(--color-gray);
-  cursor: pointer;
-  transition: color 150ms ease;
-}
-
-.options-button:hover {
-  color: var(--color-primary);
-}
-
-.options-button:focus-visible {
-  outline: 2px solid var(--color-primary-light);
-  outline-offset: 2px;
-}
-
 @media (max-width: 640px) {
   :host {
     height: 64px;
@@ -92,6 +68,10 @@
 
   .board-title {
     font-size: var(--font-size-l);
+  }
+
+  .logo-section {
+    display: none;
   }
 
   .logo-section-mobile {

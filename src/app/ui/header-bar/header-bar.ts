@@ -14,10 +14,11 @@ import { Board } from '../board/board.model';
 import { BoardsMenu } from '../sidebar/boards-menu/boards-menu';
 import { ThemeToggle } from '../theme-toggle/theme-toggle';
 import { AddBoardPage } from '../../features/boards/pages/add-board/add-board';
+import { BoardOptions } from '../board-options/board-options';
 
 @Component({
   selector: 'app-header-bar',
-  imports: [Button, Modal, BoardsMenu, ThemeToggle, AddBoardPage],
+  imports: [Button, Modal, BoardsMenu, ThemeToggle, AddBoardPage, BoardOptions],
   templateUrl: './header-bar.html',
   styleUrl: './header-bar.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,7 +1,6 @@
 @if (sidebarHidden()) {
   <div class="logo-section">
     <picture>
-      <source media="(max-width: 640px)" srcset="/logo-mobile.svg" />
       <img [src]="logoSrc()" alt="kanban logo" />
     </picture>
   </div>
@@ -34,15 +33,7 @@
     <img src="/icon-add-task-mobile.svg" alt="add-task-icon" />
   </button>
 
-  <button type="button" class="options-button" aria-label="Board options">
-    <svg width="5" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <g fill="currentColor" fill-rule="evenodd">
-        <circle cx="2.308" cy="2.308" r="2.308" />
-        <circle cx="2.308" cy="10" r="2.308" />
-        <circle cx="2.308" cy="17.692" r="2.308" />
-      </g>
-    </svg>
-  </button>
+  <app-board-options />
 </div>
 
 @if (boardListOpen()) {

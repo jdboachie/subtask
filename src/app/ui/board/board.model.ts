@@ -4,6 +4,7 @@ export interface Subtask {
 }
 
 export interface Task {
+  readonly id: string;
   readonly title: string;
   readonly description: string;
   readonly status: string;

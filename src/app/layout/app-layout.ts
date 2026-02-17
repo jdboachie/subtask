@@ -31,6 +31,6 @@ export class AppLayout {
     if (this.addTaskDisabled()) {
       return;
     }
-    this.router.navigateByUrl(`/boards/${this.appState.currentBoard()!.id}/new-task`);
+    this.router.navigateByUrl(`/boards/${this.appState.currentBoard()!.id}/task/new`);
   }
 }

@@ -1,0 +1,65 @@
+.edit-board {
+  width: 480px;
+  min-height: 429px;
+  padding: 32px;
+  gap: 24px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 6px;
+  background-color: var(--bg-secondary);
+}
+
+.edit-board h2 {
+  font-size: var(--font-size-l);
+}
+
+.field .label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--color-gray);
+  margin-bottom: 6px;
+}
+
+.field input[type='text'] {
+  font-family: var(--font-family);
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  background-color: transparent;
+  border: 1px solid var(--line-color);
+}
+
+.columns {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.column-row {
+  display: flex;
+  gap: 8px;
+}
+
+.column-row .remove {
+  background: transparent;
+  border: none;
+  color: var(--color-gray);
+  font-size: 18px;
+  width: 36px;
+}
+
+.add {
+  margin-top: 24px;
+  width: 100%;
+}
+
+.error {
+  color: var(--color-danger);
+  margin-top: 8px;
+}
+
+@media (max-width: 640px) {
+  .add-board {
+    width: 100%;
+  }
+}

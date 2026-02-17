@@ -1,0 +1,35 @@
+<app-modal title="Add New Column" [open]="isOpen()" (close)="onClose()">
+  <form class="edit-board" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <h2>Edit Board</h2>
+
+    <label class="field">
+      <span class="label">Board Name</span>
+      <input type="text" formControlName="name" placeholder="e.g. Web Design" />
+      @if (form.get('name')?.errors && form.get('name')?.touched) {
+      <div class="error">
+        @if (form.get('name')?.hasError('required')) { Board name is required. } @if
+        (form.get('name')?.hasError('duplicate')) { A board with that name already exists. } @if
+        (form.get('name')?.hasError('maxlength')) { Name is too long. }
+      </div>
+      }
+    </label>
+
+    <div class="field">
+      <span class="label">Board Columns</span>
+      <div class="columns" formArrayName="columns">
+        @for (colCtrl of columns.controls; track colCtrl; let idx = $index) {
+        <div class="column-row">
+          <input [formControlName]="idx" type="text" placeholder="Column name" />
+          <button type="button" class="remove" (click)="removeColumn(idx)">×</button>
+        </div>
+        }
+      </div>
+
+      <button app-button type="button" class="add" variant="secondary" (click)="addColumn()">
+        + Add New Column
+      </button>
+    </div>
+
+    <button app-button type="submit" class="create-button">Save Changes</button>
+  </form>
+</app-modal>

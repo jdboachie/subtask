@@ -106,6 +106,60 @@ export class AppState {
     return newBoard;
   }
 
+  updateBoard(boardId: string, name: string, columnNames: string[]): Board | null {
+    const boards = this.boards();
+    const boardIndex = boards.findIndex((b) => b.id === boardId);
+
+    if (boardIndex === -1) return null;
+
+    const board = boards[boardIndex];
+
+    const newColumns = columnNames.map((columnName, index) => {
+      const existingColumn = board.columns[index];
+      if (existingColumn) {
+        const tasks = existingColumn.tasks.map((task) => ({
+          ...task,
+          status: columnName,
+        }));
+        return { name: columnName, tasks };
+      }
+      return { name: columnName, tasks: [] as Task[] };
+    });
+
+    const updatedBoard: Board = {
+      ...board,
+      name,
+      columns: newColumns,
+    };
+
+    const newBoards = boards.map((b, i) => (i === boardIndex ? updatedBoard : b));
+    this.boardsOverride.set(newBoards);
+
+    return updatedBoard;
+  }
+
+  deleteBoard(boardId: string): Board | null {
+    const boards = this.boards();
+    const boardIndex = boards.findIndex((b) => b.id === boardId);
+
+    if (boardIndex === -1) return null;
+
+    const deletedBoard = boards[boardIndex];
+    const newBoards = boards.filter((_, i) => i !== boardIndex);
+
+    this.boardsOverride.set(newBoards);
+
+    if (this.selectedBoardId() === boardId) {
+      if (newBoards.length > 0) {
+        this.selectedBoardId.set(newBoards[0].id);
+      } else {
+        this.selectedBoardId.set(null);
+      }
+    }
+
+    return deletedBoard;
+  }
+
   moveTask(event: MoveTaskEvent): void {
     const { sourceColumnIndex, targetColumnIndex, sourceTaskIndex, targetTaskIndex } = event;
     const boards = this.boards();
@@ -169,6 +223,7 @@ export class AppState {
     const columns = board.columns.map((column) => {
       if (column.name === status) {
         const newTask: Task = {
+          id: generateId(),
           title,
           description,
           status: column.name,

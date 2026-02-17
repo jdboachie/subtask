@@ -1,6 +1,10 @@
 import { Routes } from '@angular/router';
 import { unsavedChangesGuard } from '../../auth/guards/unsaved-changes';
 import { AppLayout } from '../../layout/app-layout';
+import { NewTaskPage } from './pages/new-task/new-task';
+import { AddColumnPage } from './pages/add-column/add-column';
+import { EditBoardPage } from './pages/edit-board/edit-board';
+import { DeleteBoardModal } from './pages/delete-board/delete-board';
 
 export const BOARDS_ROUTES: Routes = [
   {
@@ -18,13 +22,29 @@ export const BOARDS_ROUTES: Routes = [
         canDeactivate: [unsavedChangesGuard],
         children: [
           {
-            path: 'new-task',
-            loadComponent: () => import('./pages/new-task/new-task').then((m) => m.NewTaskPage),
+            path: 'task',
+            children: [
+              {
+                path: 'new',
+                loadComponent: () => import('./pages/new-task/new-task').then((m) => m.NewTaskPage),
+              },
+              {
+                path: ':id',
+                loadComponent: () => import('./pages/view-task/view-task').then((m) => m.ViewTaskPage),
+              },
+            ],
           },
           {
             path: 'new-column',
-            loadComponent: () =>
-              import('./pages/add-column/add-column').then((m) => m.AddColumnPage),
+            component: AddColumnPage,
+          },
+          {
+            path: 'edit',
+            component: EditBoardPage,
+          },
+          {
+            path: 'delete',
+            component: DeleteBoardModal,
           },
         ],
       },

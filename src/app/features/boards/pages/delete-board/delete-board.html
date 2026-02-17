@@ -1,0 +1,13 @@
+<app-modal title="Delete Board" [open]="isOpen()" (close)="onClose()">
+  <div class="modal">
+    <h2>Delete this board?</h2>
+    <p>
+      Are you sure you want to delete the board? This action will remove all columns and tasks and
+      cannot be reversed.
+    </p>
+    <div class="button-layout">
+      <button app-button [variant]="'destructive'" (click)="onDelete()">Delete</button>
+      <button app-button [variant]="'secondary'" (click)="onClose()">Cancel</button>
+    </div>
+  </div>
+</app-modal>

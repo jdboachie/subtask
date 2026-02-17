@@ -1,0 +1,29 @@
+.modal {
+  width: 480px;
+  padding: 32px;
+  gap: 24px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 6px;
+  background-color: var(--bg-secondary);
+}
+
+.modal h2 {
+  font-size: var(--font-size-l);
+  color: var(--color-destructive);
+}
+
+p {
+  font-size: var(--font-size-body-l);
+  color: var(--color-gray);
+}
+
+.button-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+}
+
+.delete-button {
+  background-color: var(--color-destructive);
+}

@@ -102,7 +102,7 @@ export class AppState {
     }
     return null;
   }
-  
+
   deleteTask(taskId: string): void {
     const board = this.currentBoard();
     if (!board) return;
@@ -263,6 +263,77 @@ export class AppState {
     const newBoards = boards.map((b, i) => (i === boardIndex ? newBoard : b));
 
     this.boardsOverride.set(newBoards);
+  }
+
+  updateTask(
+    taskId: string,
+    status: string,
+    title: string,
+    description: string,
+    subtasks: readonly Subtask[],
+  ): Task | null {
+    const boards = this.boards();
+    const board = this.currentBoard();
+    if (!board) return null;
+
+    const boardIndex = boards.findIndex((b) => b.id === board.id);
+    if (boardIndex === -1) return null;
+
+    let sourceColumnIndex = -1;
+    let taskIndex = -1;
+    for (let ci = 0; ci < board.columns.length; ci++) {
+      const ti = board.columns[ci].tasks.findIndex((t) => t.id === taskId);
+      if (ti !== -1) {
+        sourceColumnIndex = ci;
+        taskIndex = ti;
+        break;
+      }
+    }
+
+    if (sourceColumnIndex === -1 || taskIndex === -1) {
+      return null;
+    }
+
+    const updated: Task = {
+      id: taskId,
+      title,
+      description,
+      status,
+      subtasks: subtasks as Subtask[],
+    };
+
+    let targetColumnIndex = board.columns.findIndex((c) => c.name === status);
+    if (targetColumnIndex === -1) {
+      targetColumnIndex = sourceColumnIndex;
+    }
+
+    let newColumns: Board['columns'] = [];
+
+    if (targetColumnIndex === sourceColumnIndex) {
+      newColumns = board.columns.map((c, index) => {
+        if (index !== sourceColumnIndex) return c;
+        const tasks = [...c.tasks];
+        tasks[taskIndex] = updated;
+        return { ...c, tasks };
+      });
+    } else {
+      newColumns = board.columns.map((c, index) => {
+        if (index === sourceColumnIndex) {
+          const tasks = c.tasks.filter((_, i) => i !== taskIndex);
+          return { ...c, tasks };
+        }
+        if (index === targetColumnIndex) {
+          const tasks = [...c.tasks, updated];
+          return { ...c, tasks };
+        }
+        return c;
+      });
+    }
+
+    const newBoard: Board = { ...board, columns: newColumns };
+    const newBoards = boards.map((b, i) => (i === boardIndex ? newBoard : b));
+    this.boardsOverride.set(newBoards);
+    return updated;
   }
 
   addColumn(name: string) {

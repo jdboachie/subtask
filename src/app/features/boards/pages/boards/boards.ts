@@ -7,39 +7,7 @@ import { Button } from '../../../../ui/button/button';
   selector: 'app-boards-page',
   imports: [Button],
   templateUrl: './boards.html',
-  styles: `
-    .loading {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-      color: var(--text-secondary);
-      font-size: var(--font-size-l);
-    }
-
-    .empty-state {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
-      height: 100%;
-      text-align: center;
-      color: var(--text-secondary);
-      padding: 2rem;
-    }
-
-    .empty-state h2 {
-      color: var(--text-primary);
-      font-size: var(--font-size-xl);
-      margin: 0;
-    }
-
-    .empty-state p {
-      max-width: 36rem;
-      margin: 0;
-    }
-  `,
+  styleUrl: './boards.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BoardsPage {

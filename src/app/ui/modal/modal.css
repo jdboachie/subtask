@@ -45,6 +45,7 @@
 }
 
 .modal-body {
+  border-radius: 12px;
   padding: 0px;
   max-height: 70vh;
   overflow: auto;

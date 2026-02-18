@@ -5,7 +5,7 @@
     <span class="label">Name</span>
     <input type="text" formControlName="name" placeholder="e.g. Web Design" />
     @if (form.get('name')?.errors && form.get('name')?.touched) {
-      <div class="error">
+      <div class="field-error">
         @if (form.get('name')?.hasError('required')) {
           Board name is required.
         }

@@ -1,0 +1,73 @@
+.modal {
+  width: 480px;
+  min-height: 429px;
+  padding: 32px;
+  gap: 24px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 6px;
+  background-color: var(--bg-secondary);
+}
+
+.modal-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.modal h2 {
+  font-size: var(--font-size-l);
+}
+
+.modal h3 {
+  font-size: var(--font-size-body-m);
+  color: var(--color-gray);
+}
+
+p {
+  font-size: var(--font-size-body-l);
+  color: var(--color-gray);
+}
+
+.subtask-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.subtask-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 8px 16px;
+  gap: 8px;
+  border-radius: 4px;
+  background-color: var(--color-light-blue);
+}
+
+.subtask-title {
+  font-size: var(--font-size-body-m);
+  color: var(--color-text);
+}
+
+.subtask-title.completed {
+  text-decoration: line-through;
+  color: var(--color-gray);
+  opacity: 0.9;
+}
+
+.field select {
+  font-family: var(--font-family);
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  background-color: transparent;
+  border: 1px solid var(--line-color);
+  cursor: pointer;
+}
+
+@media (max-width: 640px) {
+  .modal {
+    width: 100%;
+  }
+}

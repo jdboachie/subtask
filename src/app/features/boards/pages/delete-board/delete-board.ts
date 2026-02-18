@@ -26,8 +26,8 @@ export class DeleteBoardModal {
     const currentBoard = this.appState.currentBoard();
     if (currentBoard) {
       this.appState.deleteBoard(currentBoard.id);
+      this.isOpen.set(false);
+      this.router.navigateByUrl('/boards');
     }
-    this.isOpen.set(false);
-    this.router.navigateByUrl('/boards');
   }
 }

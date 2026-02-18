@@ -24,7 +24,6 @@
   color: var(--color-destructive);
 }
 
-
 .field input[type='text'] {
   font-family: var(--font-family);
   width: 100%;

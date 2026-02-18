@@ -11,17 +11,20 @@
         placeholder="new column"
         [attr.aria-required]="true"
         [attr.aria-invalid]="form.get('name')?.invalid ? 'true' : 'false'"
-        [attr.aria-describedby]="(form.get('name')?.touched && form.get('name')?.invalid) ? 'name-error' : null"
+        [attr.aria-describedby]="
+          form.get('name')?.touched && form.get('name')?.invalid ? 'name-error' : null
+        "
       />
 
       @if (form.get('name')?.touched && form.get('name')?.invalid) {
-      <div id="name-error" class="field-error" role="alert" aria-live="assertive">
-        @if (form.get('name')?.errors?.['required']) {
-        <span>Column name is required.</span>
-        } @if (form.get('name')?.errors?.['maxlength']) {
-        <span>Column name is too long.</span>
-        }
-      </div>
+        <div id="name-error" class="field-error" role="alert" aria-live="assertive">
+          @if (form.get('name')?.errors?.['required']) {
+            <span>Column name is required.</span>
+          }
+          @if (form.get('name')?.errors?.['maxlength']) {
+            <span>Column name is too long.</span>
+          }
+        </div>
       }
     </label>
 

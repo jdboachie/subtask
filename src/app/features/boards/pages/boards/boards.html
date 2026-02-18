@@ -1,15 +1,17 @@
 @if (isLoading(); as loading) {
-<div class="loading">
-  <p>Loading boards...</p>
-</div>
-} @else { @if (appState.boards().length === 0) {
-<div class="empty-state">
-  <h2>No boards yet</h2>
-  <p>Create a new board to get started.</p>
-  <button app-button type="button" (click)="openAddBoardModal()">+ Create board</button>
-</div>
+  <div class="loading">
+    <p>Loading boards...</p>
+  </div>
 } @else {
-<div class="loading">
-  <p>Redirecting to your board...</p>
-</div>
-} }
+  @if (appState.boards().length === 0) {
+    <div class="empty-state">
+      <h2>No boards yet</h2>
+      <p>Create a new board to get started.</p>
+      <button app-button type="button" (click)="openAddBoardModal()">+ Create board</button>
+    </div>
+  } @else {
+    <div class="loading">
+      <p>Redirecting to your board...</p>
+    </div>
+  }
+}

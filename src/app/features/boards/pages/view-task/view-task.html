@@ -1,34 +1,34 @@
 <app-modal [open]="isOpen()" (close)="onClose()">
   <div class="modal">
     @if (task(); as taskData) {
-    <ng-container>
-      <div class="modal-header">
-        <h2>{{ taskData.title }}</h2>
-        <app-task-options />
-      </div>
-      <p>{{ taskData.description }}</p>
+      <ng-container>
+        <div class="modal-header">
+          <h2>{{ taskData.title }}</h2>
+          <app-task-options />
+        </div>
+        <p>{{ taskData.description }}</p>
 
-      <h3>Subtasks ({{ completedCount() }} of {{ totalCount() }})</h3>
-      <div class="subtask-list">
-        @for (sub of taskData.subtasks; track sub.title; let i = $index) {
-        <label class="subtask-row">
-          <input type="checkbox" [checked]="sub.isCompleted" (change)="toggleSubtask(i)" />
-          <span class="subtask-title" [class.completed]="sub.isCompleted">{{ sub.title }}</span>
-        </label>
-        }
-      </div>
-
-      <div class="field status-field">
-        <span class="label">Current Status</span>
-        <select (change)="changeStatus($any($event.target).value)">
-          @for (col of columns(); track col.name) {
-          <option [value]="col.name" [selected]="col.name === taskData.status">
-            {{ col.name }}
-          </option>
+        <h3>Subtasks ({{ completedCount() }} of {{ totalCount() }})</h3>
+        <div class="subtask-list">
+          @for (sub of taskData.subtasks; track sub.title; let i = $index) {
+            <label class="subtask-row">
+              <input type="checkbox" [checked]="sub.isCompleted" (change)="toggleSubtask(i)" />
+              <span class="subtask-title" [class.completed]="sub.isCompleted">{{ sub.title }}</span>
+            </label>
           }
-        </select>
-      </div>
-    </ng-container>
+        </div>
+
+        <div class="field status-field">
+          <span class="label">Current Status</span>
+          <select (change)="changeStatus($any($event.target).value)">
+            @for (col of columns(); track col.name) {
+              <option [value]="col.name" [selected]="col.name === taskData.status">
+                {{ col.name }}
+              </option>
+            }
+          </select>
+        </div>
+      </ng-container>
     }
   </div>
 </app-modal>

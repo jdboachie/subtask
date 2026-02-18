@@ -19,7 +19,7 @@ export class AddColumnPage {
   protected readonly isOpen = signal(true);
 
   protected readonly form = inject(FormBuilder).group({
-    name: ['', [Validators.required]],
+    name: ['', [Validators.required, Validators.maxLength(60)]],
   });
 
   protected onClose(): void {

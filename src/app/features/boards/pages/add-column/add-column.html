@@ -1,11 +1,30 @@
 <app-modal title="Add New Column" [open]="isOpen()" (close)="onClose()">
-  <form class="new-column" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <form class="new-column" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
     <h2>Add New Column</h2>
 
-    <label class="field">
+    <label class="field" for="column-name">
       <span class="label">Column name</span>
-      <input type="text" formControlName="name" placeholder="new column" />
+      <input
+        id="column-name"
+        type="text"
+        formControlName="name"
+        placeholder="new column"
+        [attr.aria-required]="true"
+        [attr.aria-invalid]="form.get('name')?.invalid ? 'true' : 'false'"
+        [attr.aria-describedby]="(form.get('name')?.touched && form.get('name')?.invalid) ? 'name-error' : null"
+      />
+
+      @if (form.get('name')?.touched && form.get('name')?.invalid) {
+      <div id="name-error" class="field-error" role="alert" aria-live="assertive">
+        @if (form.get('name')?.errors?.['required']) {
+        <span>Column name is required.</span>
+        } @if (form.get('name')?.errors?.['maxlength']) {
+        <span>Column name is too long.</span>
+        }
+      </div>
+      }
     </label>
-    <button app-button type="submit">Add New Column</button>
+
+    <button app-button type="submit" [disabled]="form.invalid">Add New Column</button>
   </form>
 </app-modal>

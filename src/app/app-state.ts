@@ -1,4 +1,5 @@
-import { computed, Injectable, resource, signal } from '@angular/core';
+import { computed, Injectable, resource, signal, inject } from '@angular/core';
+import { LocalSync } from './services/local-sync';
 import { Board, BoardData, Task, Subtask } from './ui/board/board.model';
 
 export interface MoveTaskEvent {
@@ -16,6 +17,8 @@ function generateId(): string {
   providedIn: 'root',
 })
 export class AppState {
+  private readonly localSync = inject(LocalSync);
+
   private readonly boardsResource = resource({
     loader: async () => {
       const response = await fetch('/data.json');
@@ -25,6 +28,11 @@ export class AppState {
   });
 
   private readonly boardsOverride = signal<Board[] | null>(null);
+
+  constructor() {
+    this.localSync.init<Board[] | null>('subtask.boards', this.boardsOverride);
+    this.localSync.sync('subtask.boards', this.boards);
+  }
 
   readonly isLoading = this.boardsResource.isLoading;
 

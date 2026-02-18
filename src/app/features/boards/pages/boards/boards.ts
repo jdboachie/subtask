@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppState } from '../../../../app-state';
-import { Button } from '../../../../ui/button/button';
 
 @Component({
   selector: 'app-boards-page',
-  imports: [Button],
+
   templateUrl: './boards.html',
   styles: `
     .loading {

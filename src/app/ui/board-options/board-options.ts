@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { NgpMenu, NgpMenuItem, NgpMenuTrigger } from 'ng-primitives/menu';
 import { NgpButton } from 'ng-primitives/button';
 import { Router } from '@angular/router';
@@ -14,12 +14,17 @@ import { AppState } from '../../app-state';
 export class BoardOptions {
   private readonly router = inject(Router);
   private readonly appState = inject(AppState);
+  readonly disabled = input(false);
 
   protected onEditBoard(): void {
-    this.router.navigate(['/boards', this.appState.currentBoard()!.id, 'edit']);
+    const board = this.appState.currentBoard();
+    if (!board) return;
+    this.router.navigate(['/boards', board.id, 'edit']);
   }
 
   protected onDeleteBoard(): void {
-    this.router.navigate(['/boards', this.appState.currentBoard()!.id, 'delete']);
+    const board = this.appState.currentBoard();
+    if (!board) return;
+    this.router.navigate(['/boards', board.id, 'delete']);
   }
 }

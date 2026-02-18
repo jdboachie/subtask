@@ -20,9 +20,9 @@ export class LocalSync {
     return this;
   }
 
-  sync<T>(storageKey: string, cart: Signal<T>): void {
+  sync<T>(storageKey: string, target: Signal<T>): void {
     effect(() => {
-      const value = cart();
+      const value = target();
       localStorage.setItem(storageKey, JSON.stringify(value));
     });
   }

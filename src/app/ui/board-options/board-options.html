@@ -4,6 +4,8 @@
   type="button"
   class="options-button"
   aria-label="Board options"
+  [disabled]="disabled()"
+  [attr.aria-disabled]="disabled() ? 'true' : 'false'"
 >
   <svg width="5" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <g fill="currentColor" fill-rule="evenodd">
@@ -16,7 +18,9 @@
 
 <ng-template #menu>
   <div ngpMenu>
-    <button (click)="onEditBoard()" ngpMenuItem>Edit board</button>
-    <button (click)="onDeleteBoard()" ngpMenuItem class="destructive">Delete board</button>
+    <button (click)="onEditBoard()" ngpMenuItem [disabled]="disabled()">Edit board</button>
+    <button (click)="onDeleteBoard()" ngpMenuItem class="destructive" [disabled]="disabled()">
+      Delete board
+    </button>
   </div>
 </ng-template>

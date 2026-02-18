@@ -31,7 +31,6 @@ export class AppState {
 
   constructor() {
     this.localSync.init<Board[] | null>('subtask.boards', this.boardsOverride);
-    this.localSync.sync('subtask.boards', this.boards);
   }
 
   readonly isLoading = this.boardsResource.isLoading;

@@ -22,7 +22,6 @@ export class AppLayout {
 
   constructor() {
     this.localSync.init('subtask.sidebarHidden', this.sidebarHidden);
-    this.localSync.sync('subtask.sidebarHidden', this.sidebarHidden);
   }
 
   protected readonly addTaskDisabled = computed(() => {

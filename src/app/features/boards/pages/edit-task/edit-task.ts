@@ -101,12 +101,17 @@ export class EditTaskPage {
 
     const description = (this.form.value.description ?? '').trim();
     const status = this.form.value.status ?? '';
-    const subtasks = (this.form.value.subtasks as string[]).map((t) => ({
-      title: t.trim(),
-      isCompleted: false,
-    }));
+    const titles = (this.form.value.subtasks as string[]).map((t) => t.trim());
 
     const taskId = this.route.parent?.snapshot.paramMap.get('id') ?? null;
+    const existingTask = taskId ? this.appState.getTaskById(taskId) : null;
+    const existingSubtasks = existingTask?.subtasks ?? [];
+
+    const subtasks = titles.map((t, i) => ({
+      title: t,
+      isCompleted: existingSubtasks[i]?.isCompleted ?? false,
+    }));
+
     if (taskId) {
       this.appState.updateTask(taskId, status, title, description, subtasks);
     } else {

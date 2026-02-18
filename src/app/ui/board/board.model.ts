@@ -13,7 +13,7 @@ export interface Task {
 
 export interface Column {
   readonly name: string;
-  readonly tasks: readonly Task[];
+  tasks: Task[];
 }
 
 export interface Board {

@@ -90,6 +90,31 @@ export class AppState {
     return this.boards().find((b) => b.id === id) ?? null;
   }
 
+  getTaskById(taskId: string): Task | null {
+    const board = this.currentBoard();
+    if (!board) return null;
+
+    for (const column of board.columns) {
+      const task = column.tasks.find((t) => t.id === taskId);
+      if (task) {
+        return task;
+      }
+    }
+    return null;
+  }
+  
+  deleteTask(taskId: string): void {
+    const board = this.currentBoard();
+    if (!board) return;
+
+    for (const column of board.columns) {
+      const task = column.tasks.find((t) => t.id === taskId);
+      if (task) {
+        column.tasks = column.tasks.filter((t) => t.id !== taskId);
+      }
+    }
+  }
+
   createBoard(name: string, columnNames: string[] = []): Board {
     const columns = columnNames.map((n) => ({ name: n, tasks: [] as Task[] }));
 

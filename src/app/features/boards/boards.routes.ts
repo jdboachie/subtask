@@ -5,6 +5,9 @@ import { NewTaskPage } from './pages/new-task/new-task';
 import { AddColumnPage } from './pages/add-column/add-column';
 import { EditBoardPage } from './pages/edit-board/edit-board';
 import { DeleteBoardModal } from './pages/delete-board/delete-board';
+import { ViewTaskPage } from './pages/view-task/view-task';
+import { EditTaskPage } from './pages/edit-task/edit-task';
+import { DeleteTaskModal } from './pages/delete-task/delete-task';
 
 export const BOARDS_ROUTES: Routes = [
   {
@@ -26,11 +29,21 @@ export const BOARDS_ROUTES: Routes = [
             children: [
               {
                 path: 'new',
-                loadComponent: () => import('./pages/new-task/new-task').then((m) => m.NewTaskPage),
+                component: NewTaskPage,
               },
               {
                 path: ':id',
-                loadComponent: () => import('./pages/view-task/view-task').then((m) => m.ViewTaskPage),
+                component: ViewTaskPage,
+                children: [
+                  {
+                    path: 'edit',
+                    component: EditTaskPage,
+                  },
+                  {
+                    path: 'delete',
+                    component: DeleteTaskModal,
+                  },
+                ],
               },
             ],
           },

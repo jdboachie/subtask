@@ -1,0 +1,13 @@
+<app-modal title="Delete Task" [open]="isOpen()" (close)="onClose()">
+  <div class="modal">
+    <h2>Delete this task?</h2>
+    <p>
+      Are you sure you want to delete the ‘Build settings UI’ task and its subtasks? This action
+      cannot be reversed.
+    </p>
+    <div class="button-layout">
+      <button app-button [variant]="'destructive'" (click)="deleteTask()">Delete</button>
+      <button app-button [variant]="'secondary'" type="cancel" (click)="onClose()">Cancel</button>
+    </div>
+  </div>
+</app-modal>

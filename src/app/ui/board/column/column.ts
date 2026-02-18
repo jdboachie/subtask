@@ -25,7 +25,7 @@ export class ColumnView {
 
   protected readonly taskCount = computed(() => this.column().tasks.length);
 
-  protected onDrop(event: CdkDragDrop<{ tasks: readonly Task[]; columnIndex: number }>): void {
+  protected onDrop(event: CdkDragDrop<{ tasks: Task[]; columnIndex: number }, any, any>): void {
     this.taskDrop.emit({
       sourceColumnIndex: event.previousContainer.data.columnIndex,
       targetColumnIndex: event.container.data.columnIndex,

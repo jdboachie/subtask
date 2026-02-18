@@ -1,10 +1,33 @@
 <app-modal title="Add New Task" [open]="isOpen()" (close)="onClose()">
-  <form class="new-task" [formGroup]="form" (ngSubmit)="onSubmit()">
-    <h2>Add New Task</h2>
+  <form
+    class="new-task"
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+    novalidate
+    aria-labelledby="new-task-title"
+  >
+    <h2 id="new-task-title">Add New Task</h2>
 
     <label for="title" class="field">
       <span class="label">Title</span>
-      <input id="title" type="text" formControlName="title" placeholder="e.g. Take coffee break" />
+      <input
+        id="title"
+        type="text"
+        formControlName="title"
+        placeholder="e.g. Take coffee break"
+        aria-required="true"
+        [attr.aria-invalid]="form.get('title')?.invalid && (form.get('title')?.touched || form.get('title')?.dirty) ? 'true' : 'false'"
+        [attr.aria-describedby]="(form.get('title')?.touched && form.get('title')?.invalid) ? 'title-error' : null"
+      />
+      @if (form.get('title')?.touched && form.get('title')?.invalid) {
+      <div id="title-error" class="field-error" role="alert" aria-live="assertive">
+        @if (form.get('title')?.errors?.['required']) {
+        <span>Title is required.</span>
+        } @if (form.get('title')?.errors?.['maxlength']) {
+        <span>Title must be 60 characters or fewer.</span>
+        }
+      </div>
+      }
     </label>
     <label class="field">
       <span class="label">Description</span>
@@ -20,11 +43,21 @@
       <span class="label">Subtasks</span>
       <div class="subtasks" formArrayName="subtasks">
         @for (subCtrl of subtasks.controls; track subCtrl; let idx = $index) {
-          <div class="subtask-row">
-            <input [formControlName]="idx" type="text" placeholder="e.g. Make coffee" />
-            <button type="button" class="remove" (click)="removeSubTask(idx)">×</button>
-          </div>
-        }
+        <div class="subtask-row">
+          <input
+            [formControlName]="idx"
+            type="text"
+            placeholder="e.g. Make coffee"
+            [attr.aria-invalid]="subCtrl.invalid && (subCtrl.touched || subCtrl.dirty) ? 'true' : 'false'"
+            [attr.aria-describedby]="(subCtrl.touched && subCtrl.invalid) ? 'subtask-error-' + idx : null"
+          />
+          <button type="button" class="remove" (click)="removeSubTask(idx)">×</button>
+        </div>
+        @if (subCtrl.touched && subCtrl.invalid) {
+        <div id="subtask-error-{{idx}}" class="field-error" role="alert" aria-live="assertive">
+          <span>Subtask can't be empty.</span>
+        </div>
+        } }
       </div>
       <button app-button type="button" class="add" variant="secondary" (click)="addNewSubTask()">
         + Add New Subtask
@@ -34,10 +67,12 @@
       <span class="label">Status</span>
       <select formControlName="status">
         @for (column of columns(); track column.name) {
-          <option [value]="column.name">{{ column.name }}</option>
+        <option [value]="column.name">{{ column.name }}</option>
         }
       </select>
     </div>
-    <button app-button type="submit" class="create-button">Create Task</button>
+    <button app-button type="submit" class="create-button" [disabled]="form.invalid">
+      Create Task
+    </button>
   </form>
 </app-modal>

@@ -1,17 +1,8 @@
 import { computed, Injectable, resource, signal, inject } from '@angular/core';
 import { LocalSync } from './services/local-sync';
 import { Board, BoardData, Task, Subtask } from './ui/board/board.model';
-
-export interface MoveTaskEvent {
-  sourceColumnIndex: number;
-  targetColumnIndex: number;
-  sourceTaskIndex: number;
-  targetTaskIndex: number;
-}
-
-function generateId(): string {
-  return crypto.randomUUID();
-}
+import { MoveTaskEvent } from './app-state.model';
+import { generateId } from './utils';
 
 @Injectable({
   providedIn: 'root',

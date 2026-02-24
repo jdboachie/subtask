@@ -1,5 +1,5 @@
 <app-sidebar
-  [boards]="appState.boards()"
+  [boards]="boards()"
   [hidden]="sidebarHidden()"
   (createBoard)="onCreateBoard()"
   (hide)="sidebarHidden.set(true)"
@@ -15,10 +15,10 @@
 
 <div class="main-content" [class.sidebar-visible]="!sidebarHidden()">
   <app-header-bar
-    [boards]="appState.boards()"
-    [boardName]="appState.currentBoard()?.name ?? ''"
+    [boards]="boards()"
+    [boardName]="currentBoard()?.name ?? ''"
     [sidebarHidden]="sidebarHidden()"
-    [addTaskDisabled]="addTaskDisabled()"
+    [addTaskDisabled]="isAddTaskDisabled()"
     (addTask)="onAddTask()"
   />
 

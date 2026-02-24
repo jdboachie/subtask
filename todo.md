@@ -1,4 +1,3 @@
-- add handler for no boards case
-- add local sync
+Improvements:
 
 1. add keyboard shortcuts

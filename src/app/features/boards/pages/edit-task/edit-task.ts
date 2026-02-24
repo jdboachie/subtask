@@ -1,13 +1,8 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  effect,
-  inject,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AppState } from '../../../../app-state';
+import { Store } from '@ngrx/store';
+import { BoardActions, BoardSelectors } from '../../../../store';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Modal } from '../../../../ui/modal/modal';
@@ -23,7 +18,7 @@ import { Button } from '../../../../ui/button/button';
 export class EditTaskPage {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
-  protected readonly appState = inject(AppState);
+  private readonly store = inject(Store);
   private readonly fb = inject(FormBuilder);
   protected readonly isOpen = signal(true);
 
@@ -34,9 +29,8 @@ export class EditTaskPage {
     subtasks: this.fb.array([this.fb.control('', Validators.required)]),
   });
 
-  protected readonly columns = computed(() => {
-    const board = this.appState.currentBoard();
-    return board?.columns ?? [];
+  protected readonly columns = toSignal(this.store.select(BoardSelectors.selectColumns), {
+    initialValue: [],
   });
 
   constructor() {
@@ -45,7 +39,7 @@ export class EditTaskPage {
 
       const taskId = this.route.parent?.snapshot.paramMap.get('id') ?? null;
       if (taskId) {
-        const task = this.appState.getTaskById(taskId);
+        const task = this.store.selectSignal(BoardSelectors.selectTaskById(taskId))();
         if (task) {
           this.form.patchValue({
             title: task.title,
@@ -82,12 +76,15 @@ export class EditTaskPage {
 
   protected onClose(): void {
     this.isOpen.set(false);
-    this.router.navigate([
-      '/boards',
-      this.appState.currentBoard()!.id,
-      'task',
-      this.route.parent?.snapshot.paramMap.get('id'),
-    ]);
+    const currentBoard = this.store.selectSignal(BoardSelectors.selectCurrentBoard)();
+    if (currentBoard) {
+      this.router.navigate([
+        '/boards',
+        currentBoard.id,
+        'task',
+        this.route.parent?.snapshot.paramMap.get('id'),
+      ]);
+    }
   }
 
   protected onSubmit(): void {
@@ -104,7 +101,9 @@ export class EditTaskPage {
     const titles = (this.form.value.subtasks as string[]).map((t) => t.trim());
 
     const taskId = this.route.parent?.snapshot.paramMap.get('id') ?? null;
-    const existingTask = taskId ? this.appState.getTaskById(taskId) : null;
+    const existingTask = taskId
+      ? this.store.selectSignal(BoardSelectors.selectTaskById(taskId))()
+      : null;
     const existingSubtasks = existingTask?.subtasks ?? [];
 
     const subtasks = titles.map((t, i) => ({
@@ -113,9 +112,11 @@ export class EditTaskPage {
     }));
 
     if (taskId) {
-      this.appState.updateTask(taskId, status, title, description, subtasks);
+      this.store.dispatch(
+        BoardActions.updateTask({ taskId, status, title, description, subtasks }),
+      );
     } else {
-      this.appState.addTask(status, title, description, subtasks);
+      this.store.dispatch(BoardActions.addTask({ status, title, description, subtasks }));
     }
 
     this.onClose();

@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppState } from '../../../../app-state';
+import { Store } from '@ngrx/store';
+import { BoardActions, BoardSelectors } from '../../../../store';
 import { CommonModule } from '@angular/common';
 import { Button } from '../../../../ui/button/button';
 import { ReactiveFormsModule, FormBuilder, Validators, FormArray } from '@angular/forms';
@@ -15,18 +16,28 @@ import { Modal } from '../../../../ui/modal/modal';
 })
 export class EditBoardPage {
   private readonly router = inject(Router);
-  protected readonly appState = inject(AppState);
+  private readonly store = inject(Store);
   private readonly fb = inject(FormBuilder);
   protected readonly isOpen = signal(true);
 
   protected onClose(): void {
     this.isOpen.set(false);
-    this.router.navigate(['/boards', this.appState.currentBoard()!.id]);
+    const currentBoard = this.store.selectSignal(BoardSelectors.selectCurrentBoard)();
+    if (currentBoard) {
+      this.router.navigate(['/boards', currentBoard.id]);
+    }
   }
 
   protected readonly form = this.fb.group({
-    name: [this.appState.currentBoard()!.name, [Validators.required, Validators.maxLength(60)]],
-    columns: this.fb.array(this.appState.currentBoard()!.columns.map((column) => column.name)),
+    name: [
+      this.store.selectSignal(BoardSelectors.selectCurrentBoard)()?.name ?? '',
+      [Validators.required, Validators.maxLength(60)],
+    ],
+    columns: this.fb.array(
+      this.store
+        .selectSignal(BoardSelectors.selectCurrentBoard)()
+        ?.columns.map((column) => column.name) ?? [],
+    ),
   });
 
   protected get columns(): FormArray {
@@ -49,7 +60,7 @@ export class EditBoardPage {
       return;
     }
 
-    const currentBoard = this.appState.currentBoard();
+    const currentBoard = this.store.selectSignal(BoardSelectors.selectCurrentBoard)();
     if (!currentBoard) return;
 
     const name = (this.form.value.name ?? '').trim();
@@ -57,15 +68,16 @@ export class EditBoardPage {
       .map((c) => c.trim())
       .filter(Boolean);
 
-    const exists = this.appState
-      .boards()
-      .some((b) => b.id !== currentBoard.id && b.name.toLowerCase() === name.toLowerCase());
+    const boards = this.store.selectSignal(BoardSelectors.selectAllBoards)();
+    const exists = boards.some(
+      (b) => b.id !== currentBoard.id && b.name.toLowerCase() === name.toLowerCase(),
+    );
     if (exists) {
       this.form.get('name')?.setErrors({ duplicate: true });
       return;
     }
 
-    this.appState.updateBoard(currentBoard.id, name, columnNames);
+    this.store.dispatch(BoardActions.updateBoard({ boardId: currentBoard.id, name, columnNames }));
 
     window.dispatchEvent(new CustomEvent('close:edit-board'));
 

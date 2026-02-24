@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../../auth/auth';
+import { Store } from '@ngrx/store';
+import { AuthActions, AuthSelectors } from '../../store';
 import { Button } from '../../ui/button/button';
 
 @Component({
@@ -98,7 +99,7 @@ import { Button } from '../../ui/button/button';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginPage {
-  private readonly authService = inject(AuthService);
+  private readonly store = inject(Store);
   private readonly router = inject(Router);
 
   protected username = '';
@@ -118,12 +119,17 @@ export class LoginPage {
       return;
     }
 
-    const success = this.authService.login(this.username, this.password);
+    this.store.dispatch(AuthActions.login({ username: this.username, password: this.password }));
 
-    if (success) {
-      this.router.navigate(['/boards']);
-    } else {
-      this.error.set('Invalid credentials');
-    }
+    this.store.select(AuthSelectors.selectIsAuthenticated).subscribe((isAuth) => {
+      if (isAuth) {
+        this.router.navigate(['/boards']);
+      } else {
+        const error = this.store.selectSignal(AuthSelectors.selectError)();
+        if (error) {
+          this.error.set(error);
+        }
+      }
+    });
   }
 }

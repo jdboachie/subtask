@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AppState } from '../../../../app-state';
+import { Store } from '@ngrx/store';
+import { BoardActions, BoardSelectors } from '../../../../store';
 import { Button } from '../../../../ui/button/button';
 import { Modal } from '../../../../ui/modal/modal';
 
@@ -15,20 +16,26 @@ import { Modal } from '../../../../ui/modal/modal';
 export class DeleteTaskModal {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
-  protected readonly appState = inject(AppState);
+  private readonly store = inject(Store);
   protected readonly isOpen = signal(true);
 
   protected deleteTask(): void {
     const taskId = this.route.parent?.snapshot.paramMap.get('id') ?? null;
     if (taskId) {
-      this.appState.deleteTask(taskId);
+      this.store.dispatch(BoardActions.deleteTask({ taskId }));
       this.isOpen.set(false);
-      this.router.navigate(['/boards', this.appState.currentBoard()!.id]);
+      const currentBoard = this.store.selectSignal(BoardSelectors.selectCurrentBoard)();
+      if (currentBoard) {
+        this.router.navigate(['/boards', currentBoard.id]);
+      }
     }
   }
 
   protected onClose(): void {
     this.isOpen.set(false);
-    this.router.navigate(['/boards', this.appState.currentBoard()!.id]);
+    const currentBoard = this.store.selectSignal(BoardSelectors.selectCurrentBoard)();
+    if (currentBoard) {
+      this.router.navigate(['/boards', currentBoard.id]);
+    }
   }
 }

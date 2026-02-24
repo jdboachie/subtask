@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppState } from '../../../../app-state';
+import { Store } from '@ngrx/store';
+import { BoardActions } from '../../../../store/actions/board.actions';
+import { BoardSelectors } from '../../../../store';
 import { CommonModule } from '@angular/common';
 import { Button } from '../../../../ui/button/button';
 import { ReactiveFormsModule, FormBuilder, Validators, FormArray } from '@angular/forms';
@@ -14,7 +16,7 @@ import { ReactiveFormsModule, FormBuilder, Validators, FormArray } from '@angula
 })
 export class AddBoardPage {
   private readonly router = inject(Router);
-  protected readonly appState = inject(AppState);
+  private readonly store = inject(Store);
   private readonly fb = inject(FormBuilder);
 
   protected readonly form = this.fb.group({
@@ -47,16 +49,22 @@ export class AddBoardPage {
       .map((c) => c.trim())
       .filter(Boolean);
 
-    const exists = this.appState.boards().some((b) => b.name.toLowerCase() === name.toLowerCase());
-    if (exists) {
-      this.form.get('name')?.setErrors({ duplicate: true });
-      return;
-    }
+    this.store.select(BoardSelectors.selectAllBoards).subscribe((boards) => {
+      const exists = boards.some((b) => b.name.toLowerCase() === name.toLowerCase());
+      if (exists) {
+        this.form.get('name')?.setErrors({ duplicate: true });
+        return;
+      }
 
-    const board = this.appState.createBoard(name, columnNames);
+      this.store.dispatch(BoardActions.createBoard({ name, columnNames }));
 
-    window.dispatchEvent(new CustomEvent('close:add-board'));
+      window.dispatchEvent(new CustomEvent('close:add-board'));
 
-    await this.router.navigate(['/boards', board.id]);
+      this.store.select(BoardSelectors.selectCurrentBoard).subscribe((currentBoard) => {
+        if (currentBoard) {
+          this.router.navigate(['/boards', currentBoard.id]);
+        }
+      });
+    });
   }
 }

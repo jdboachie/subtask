@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppState } from '../../../../app-state';
+import { Store } from '@ngrx/store';
+import { BoardActions, BoardSelectors } from '../../../../store';
 import { CommonModule } from '@angular/common';
 import { Modal } from '../../../../ui/modal/modal';
 import { Button } from '../../../../ui/button/button';
@@ -14,7 +15,7 @@ import { Button } from '../../../../ui/button/button';
 })
 export class DeleteBoardModal {
   private readonly router = inject(Router);
-  protected readonly appState = inject(AppState);
+  private readonly store = inject(Store);
   protected readonly isOpen = signal(true);
 
   protected onClose(): void {
@@ -23,9 +24,9 @@ export class DeleteBoardModal {
   }
 
   protected onDelete(): void {
-    const currentBoard = this.appState.currentBoard();
+    const currentBoard = this.store.selectSignal(BoardSelectors.selectCurrentBoard)();
     if (currentBoard) {
-      this.appState.deleteBoard(currentBoard.id);
+      this.store.dispatch(BoardActions.deleteBoard({ boardId: currentBoard.id }));
       this.isOpen.set(false);
       this.router.navigateByUrl('/boards');
     }

@@ -1,15 +1,10 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  effect,
-  inject,
-  input,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, input, signal } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { HasUnsavedChanges } from '../../../../auth';
-import { AppState } from '../../../../app-state';
+import { Store } from '@ngrx/store';
+import { BoardActions, BoardSelectors } from '../../../../store';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs/operators';
 import { BoardView } from '../../../../ui/board/board';
 import { FilterBar } from '../../../../ui/filter-bar/filter-bar';
 
@@ -35,41 +30,48 @@ import { FilterBar } from '../../../../ui/filter-bar/filter-bar';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BoardDetailsPage implements HasUnsavedChanges {
-  private readonly appState = inject(AppState);
+  private readonly store = inject(Store);
   private readonly router = inject(Router);
 
   readonly id = input.required<string>();
   readonly filter = input<string | null>(null);
 
-  protected readonly isLoading = this.appState.isLoading;
+  protected readonly isLoading = toSignal(this.store.select(BoardSelectors.selectIsLoading), {
+    initialValue: true,
+  });
   private readonly dirty = signal(false);
 
-  protected readonly board = computed(() => {
-    const id = this.id();
-    return this.appState.getBoardById(id);
+  protected readonly board = signal<import('../../../../ui/board/board.model').Board | null>(null);
+
+  protected readonly columnNames = toSignal(this.store.select(BoardSelectors.selectColumnNames), {
+    initialValue: [],
   });
 
-  protected readonly columnNames = computed(() => {
-    const board = this.board();
-    return board ? board.columns.map((c) => c.name) : [];
-  });
-
-  protected readonly filteredBoard = computed(() => {
-    const board = this.board();
-    const filter = this.filter();
-    if (!board || !filter) return board;
-    return {
-      ...board,
-      columns: board.columns.filter((c) => c.name === filter),
-    };
-  });
+  protected readonly filteredBoard = toSignal(
+    this.store.select(BoardSelectors.selectCurrentBoard).pipe(
+      map((board) => {
+        const filter = this.filter();
+        if (!board || !filter) return board;
+        return {
+          ...board,
+          columns: board.columns.filter((c) => c.name === filter),
+        };
+      }),
+    ),
+    { initialValue: null },
+  );
 
   constructor() {
     effect(() => {
       const id = this.id();
       if (id) {
-        this.appState.selectBoardById(id);
+        this.store.dispatch(BoardActions.selectBoardById({ id }));
+        const sel = BoardSelectors.selectBoardById(id);
+        const b = this.store.selectSignal(sel)();
+        this.board.set(b);
         this.dirty.set(false);
+      } else {
+        this.board.set(null);
       }
     });
   }

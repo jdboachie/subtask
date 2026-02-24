@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppState } from '../../../../app-state';
+import { Store } from '@ngrx/store';
+import { BoardActions, BoardSelectors } from '../../../../store';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Modal } from '../../../../ui/modal/modal';
@@ -15,7 +16,7 @@ import { Button } from '../../../../ui/button/button';
 })
 export class AddColumnPage {
   private readonly router = inject(Router);
-  protected readonly appState = inject(AppState);
+  private readonly store = inject(Store);
   protected readonly isOpen = signal(true);
 
   protected readonly form = inject(FormBuilder).group({
@@ -24,7 +25,11 @@ export class AddColumnPage {
 
   protected onClose(): void {
     this.isOpen.set(false);
-    this.router.navigate(['/boards', this.appState.currentBoard()!.id]);
+    this.store.select(BoardSelectors.selectCurrentBoard).subscribe((board) => {
+      if (board) {
+        this.router.navigate(['/boards', board.id]);
+      }
+    });
   }
 
   protected onSubmit(): void {
@@ -36,7 +41,7 @@ export class AddColumnPage {
     const name = this.form.value.name;
     if (!name) return;
 
-    this.appState.addColumn(name);
+    this.store.dispatch(BoardActions.addColumn({ name }));
     this.onClose();
   }
 }

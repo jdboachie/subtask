@@ -14,7 +14,7 @@ export class AuthService {
 
   login(username: string, password: string): boolean {
     if (username.trim().length > 0 && password.length >= 4) {
-      const user: User = { username: username.trim() };
+      const user: User = { username: username.trim(), password };
       this.user.set(user);
       this.saveUserToStorage(user);
       return true;

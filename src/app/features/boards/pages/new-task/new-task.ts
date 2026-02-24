@@ -1,13 +1,8 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  effect,
-  inject,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppState } from '../../../../app-state';
+import { Store } from '@ngrx/store';
+import { BoardActions, BoardSelectors } from '../../../../store';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Modal } from '../../../../ui/modal/modal';
@@ -22,7 +17,7 @@ import { Button } from '../../../../ui/button/button';
 })
 export class NewTaskPage {
   private readonly router = inject(Router);
-  protected readonly appState = inject(AppState);
+  private readonly store = inject(Store);
   private readonly fb = inject(FormBuilder);
   protected readonly isOpen = signal(true);
 
@@ -33,9 +28,8 @@ export class NewTaskPage {
     subtasks: this.fb.array([this.fb.control('', Validators.required)]),
   });
 
-  protected readonly columns = computed(() => {
-    const board = this.appState.currentBoard();
-    return board?.columns ?? [];
+  protected readonly columns = toSignal(this.store.select(BoardSelectors.selectColumns), {
+    initialValue: [],
   });
 
   constructor() {
@@ -63,7 +57,10 @@ export class NewTaskPage {
 
   protected onClose(): void {
     this.isOpen.set(false);
-    this.router.navigate(['/boards', this.appState.currentBoard()!.id]);
+    const currentBoard = this.store.selectSignal(BoardSelectors.selectCurrentBoard)();
+    if (currentBoard) {
+      this.router.navigate(['/boards', currentBoard.id]);
+    }
   }
 
   protected onSubmit(): void {
@@ -82,7 +79,7 @@ export class NewTaskPage {
       isCompleted: false,
     }));
 
-    this.appState.addTask(status, title, description, subtasks);
+    this.store.dispatch(BoardActions.addTask({ status, title, description, subtasks }));
     this.onClose();
   }
 }

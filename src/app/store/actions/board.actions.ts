@@ -1,5 +1,5 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { Board, Task, Subtask } from '../../ui/board/board.model';
+import { Board, Subtask } from '../../ui/board/board.model';
 import { MoveTaskEvent } from '../../app-state.model';
 
 export const BoardActions = createActionGroup({

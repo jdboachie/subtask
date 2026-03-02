@@ -67,7 +67,6 @@ describe('Modal Component', () => {
         emitted = true;
       });
 
-      // Trigger close by simulating parent behavior
       component.close.emit();
 
       setTimeout(() => {
@@ -82,7 +81,6 @@ describe('Modal Component', () => {
         emitted = true;
       });
 
-      // Trigger confirm by simulating parent behavior
       component.confirm.emit();
 
       setTimeout(() => {
@@ -112,7 +110,6 @@ describe('Modal Component', () => {
 
   describe('Keyboard Handling', () => {
     it('should have onBackdropKeydown method to handle Escape key', () => {
-      // Verify the component has the keyboard handler capability
       expect(typeof component['onBackdropKeydown']).toBe('function');
     });
 

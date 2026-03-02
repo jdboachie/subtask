@@ -16,10 +16,7 @@ describe('guestGuard', () => {
     router = { createUrlTree: jest.fn().mockReturnValue(mockUrlTree) };
 
     TestBed.configureTestingModule({
-      providers: [
-        provideMockStore(),
-        { provide: Router, useValue: router },
-      ],
+      providers: [provideMockStore(), { provide: Router, useValue: router }],
     });
 
     store = TestBed.inject(MockStore);

@@ -23,7 +23,6 @@ export class BoardsPage {
   });
 
   constructor() {
-    console.log("loading boards...")
     this.store.dispatch(BoardActions.loadBoards());
 
     effect(() => {
@@ -40,4 +39,5 @@ export class BoardsPage {
   }
 
   readonly isLoading = this.store.selectSignal(BoardSelectors.selectIsLoading);
+  readonly error = this.store.selectSignal(BoardSelectors.selectError);
 }

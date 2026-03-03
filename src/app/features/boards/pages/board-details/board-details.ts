@@ -18,13 +18,36 @@ import { FilterBar } from '../../../../ui/filter-bar/filter-bar';
       height: 100%;
     }
 
-    .not-found {
+    .not-found,
+    .error-state,
+    .loading-state {
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
+      gap: 1rem;
       height: 100%;
       color: var(--text-secondary);
       font-size: var(--font-size-l);
+    }
+
+    .error-state {
+      color: var(--destructive);
+    }
+
+    .spinner {
+      width: 2rem;
+      height: 2rem;
+      border: 3px solid var(--border);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -38,6 +61,9 @@ export class BoardDetailsPage implements HasUnsavedChanges {
 
   protected readonly isLoading = toSignal(this.store.select(BoardSelectors.selectIsLoading), {
     initialValue: true,
+  });
+  protected readonly error = toSignal(this.store.select(BoardSelectors.selectError), {
+    initialValue: null,
   });
   private readonly dirty = signal(false);
 

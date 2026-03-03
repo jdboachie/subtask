@@ -1,4 +1,14 @@
-@if (board(); as board) {
+@if (isLoading()) {
+  <div class="loading-state" role="status" aria-live="polite">
+    <div class="spinner" aria-hidden="true"></div>
+    <p>Loading boards...</p>
+  </div>
+} @else if (error()) {
+  <div class="error-state" role="alert">
+    <p>Failed to load data</p>
+    <p>{{ error() }}</p>
+  </div>
+} @else if (board(); as board) {
   <app-filter-bar
     [columns]="columnNames()"
     [currentFilter]="filter()"
@@ -9,7 +19,7 @@
     (addColumn)="onAddColumn()"
     (taskMoved)="onTaskMoved()"
   />
-} @else if (!isLoading()) {
+} @else {
   <div class="not-found">
     <p>Board not found</p>
   </div>

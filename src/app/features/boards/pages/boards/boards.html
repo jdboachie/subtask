@@ -1,17 +1,22 @@
-@if (isLoading(); as loading) {
-  <div class="loading">
-    <p>Loading boards...</p>
-  </div>
+@if (isLoading()) {
+<div class="loading" role="status" aria-live="polite">
+  <p>Loading boards...</p>
+</div>
+} @else if (error()) {
+<div class="error-state" role="alert">
+  <h2>Failed to load boards</h2>
+  <p>{{ error() }}</p>
+</div>
 } @else {
-  @if (boards().length === 0) {
-    <div class="empty-state">
-      <h2>No boards yet</h2>
-      <p>Create a new board to get started.</p>
-      <button app-button type="button" (click)="openAddBoardModal()">+ Create board</button>
-    </div>
-  } @else {
-    <div class="loading">
-      <p>Redirecting to your board...</p>
-    </div>
-  }
+@if (boards().length === 0) {
+<div class="empty-state">
+  <h2>No boards yet</h2>
+  <p>Create a new board to get started.</p>
+  <button app-button type="button" (click)="openAddBoardModal()">+ Create board</button>
+</div>
+} @else {
+<div class="loading">
+  <p>Redirecting to your board...</p>
+</div>
+}
 }

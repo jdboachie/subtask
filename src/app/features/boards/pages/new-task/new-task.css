@@ -99,3 +99,9 @@
     width: 100%;
   }
 }
+
+.api-error {
+  color: var(--color-destructive);
+  font-size: var(--font-size-body-s);
+  margin-top: 0.5rem;
+}

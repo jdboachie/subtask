@@ -1,10 +1,11 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { map, switchMap, catchError, tap, withLatestFrom } from 'rxjs/operators';
+import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { BoardActions } from '../actions/board.actions';
-import { BoardData } from '../../ui/board/board.model';
 import { selectAllBoards } from '../selectors/board.selectors';
+import { BoardService } from '../../services/board.service';
 
 const STORAGE_KEY = 'subtask.boards';
 
@@ -12,20 +13,18 @@ const STORAGE_KEY = 'subtask.boards';
 export class BoardEffects {
   private readonly actions$ = inject(Actions);
   private readonly store = inject(Store);
+  private readonly boardService = inject(BoardService);
 
   readonly loadBoards$ = createEffect(() =>
     this.actions$.pipe(
       ofType(BoardActions.loadBoards),
       switchMap(() =>
-        fetch('/data.json')
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error('Failed to load boards');
-            }
-            return response.json();
-          })
-          .then((data: BoardData) => BoardActions.loadBoardsSuccess({ boards: data.boards }))
-          .catch((error) => BoardActions.loadBoardsFailure({ error: error.message })),
+        this.boardService.getAllBoards().pipe(
+          map((data) => BoardActions.loadBoardsSuccess({ boards: data.boards })),
+          catchError((error: Error) =>
+            of(BoardActions.loadBoardsFailure({ error: error.message })),
+          ),
+        ),
       ),
     ),
   );

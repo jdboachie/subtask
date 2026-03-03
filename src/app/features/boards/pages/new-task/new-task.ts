@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Modal } from '../../../../ui/modal/modal';
 import { Button } from '../../../../ui/button/button';
+import { TaskService } from '../../../../services/task.service';
 
 @Component({
   selector: 'app-new-task',
@@ -19,7 +20,10 @@ export class NewTaskPage {
   private readonly router = inject(Router);
   private readonly store = inject(Store);
   private readonly fb = inject(FormBuilder);
+  private readonly taskService = inject(TaskService);
   protected readonly isOpen = signal(true);
+  protected readonly submitting = signal(false);
+  protected readonly submitError = signal<string | null>(null);
 
   protected readonly form = this.fb.group({
     title: ['', [Validators.required, Validators.maxLength(60)]],
@@ -79,7 +83,24 @@ export class NewTaskPage {
       isCompleted: false,
     }));
 
-    this.store.dispatch(BoardActions.addTask({ status, title, description, subtasks }));
-    this.onClose();
+    const currentBoard = this.store.selectSignal(BoardSelectors.selectCurrentBoard)();
+    const boardId = currentBoard?.id ?? '';
+
+    this.submitting.set(true);
+    this.submitError.set(null);
+
+    this.taskService.createTask(boardId, { title, description, status, subtasks }).subscribe({
+      complete: () => {
+        this.submitting.set(false);
+        this.store.dispatch(BoardActions.addTask({ status, title, description, subtasks }));
+        this.onClose();
+      },
+      error: (err: Error) => {
+        this.submitting.set(false);
+        this.submitError.set(err.message);
+        this.store.dispatch(BoardActions.addTask({ status, title, description, subtasks }));
+        this.onClose();
+      },
+    });
   }
 }

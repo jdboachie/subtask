@@ -27,3 +27,8 @@ p {
 .delete-button {
   background-color: var(--color-destructive);
 }
+
+.api-error {
+  color: var(--color-destructive);
+  font-size: var(--font-size-body-s);
+}

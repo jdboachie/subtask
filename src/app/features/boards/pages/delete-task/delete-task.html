@@ -5,8 +5,13 @@
       Are you sure you want to delete the ‘Build settings UI’ task and its subtasks? This action
       cannot be reversed.
     </p>
+    @if (deleteError()) {
+      <p class="api-error" role="alert" aria-live="assertive">{{ deleteError() }}</p>
+    }
     <div class="button-layout">
-      <button app-button [variant]="'destructive'" (click)="deleteTask()">Delete</button>
+      <button app-button [variant]="'destructive'" [disabled]="deleting()" (click)="deleteTask()">
+        {{ deleting() ? 'Deleting...' : 'Delete' }}
+      </button>
       <button app-button [variant]="'secondary'" type="cancel" (click)="onClose()">Cancel</button>
     </div>
   </div>

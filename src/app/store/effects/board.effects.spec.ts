@@ -1,11 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
-import { ReplaySubject, firstValueFrom } from 'rxjs';
+import { ReplaySubject, firstValueFrom, of, throwError } from 'rxjs';
 import { BoardEffects } from './board.effects';
 import { BoardActions } from '../actions/board.actions';
 import { Board } from '../../ui/board/board.model';
 import { selectAllBoards } from '../selectors/board.selectors';
+import { BoardService } from '../../services/board.service';
 
 const STORAGE_KEY = 'subtask.boards';
 
@@ -13,6 +14,7 @@ describe('BoardEffects', () => {
   let effects: BoardEffects;
   let actions$: ReplaySubject<any>;
   let store: MockStore;
+  let mockBoardService: jest.Mocked<Pick<BoardService, 'getAllBoards'>>;
 
   const mockBoards: Board[] = [
     { id: '1', name: 'Platform Launch', columns: [] },
@@ -21,6 +23,7 @@ describe('BoardEffects', () => {
 
   beforeEach(() => {
     actions$ = new ReplaySubject(1);
+    mockBoardService = { getAllBoards: jest.fn() };
 
     TestBed.configureTestingModule({
       providers: [
@@ -37,6 +40,7 @@ describe('BoardEffects', () => {
             },
           },
         }),
+        { provide: BoardService, useValue: mockBoardService },
       ],
     });
 
@@ -53,11 +57,7 @@ describe('BoardEffects', () => {
 
   describe('loadBoards$', () => {
     it('dispatches loadBoardsSuccess with boards on successful fetch', async () => {
-      const boardData = { boards: mockBoards };
-      global.fetch = jest.fn().mockResolvedValue({
-        ok: true,
-        json: jest.fn().mockResolvedValue(boardData),
-      });
+      mockBoardService.getAllBoards.mockReturnValue(of({ boards: mockBoards }));
 
       actions$.next(BoardActions.loadBoards());
 
@@ -66,12 +66,10 @@ describe('BoardEffects', () => {
       expect(action).toEqual(BoardActions.loadBoardsSuccess({ boards: mockBoards as any }));
     });
 
-    it('dispatches loadBoardsFailure when response status is not ok', async () => {
-      global.fetch = jest.fn().mockResolvedValue({
-        ok: false,
-        status: 404,
-        json: jest.fn(),
-      });
+    it('dispatches loadBoardsFailure when the service errors', async () => {
+      mockBoardService.getAllBoards.mockReturnValue(
+        throwError(() => new Error('Failed to load boards')),
+      );
 
       actions$.next(BoardActions.loadBoards());
 
@@ -80,8 +78,8 @@ describe('BoardEffects', () => {
       expect(action).toEqual(BoardActions.loadBoardsFailure({ error: 'Failed to load boards' }));
     });
 
-    it('dispatches loadBoardsFailure when fetch rejects with network error', async () => {
-      global.fetch = jest.fn().mockRejectedValue(new Error('Network error'));
+    it('dispatches loadBoardsFailure on network error', async () => {
+      mockBoardService.getAllBoards.mockReturnValue(throwError(() => new Error('Network error')));
 
       actions$.next(BoardActions.loadBoards());
 
@@ -90,31 +88,14 @@ describe('BoardEffects', () => {
       expect(action).toEqual(BoardActions.loadBoardsFailure({ error: 'Network error' }));
     });
 
-    it('dispatches loadBoardsFailure when json() rejects', async () => {
-      global.fetch = jest.fn().mockResolvedValue({
-        ok: true,
-        json: jest.fn().mockRejectedValue(new Error('JSON parse error')),
-      });
-
-      actions$.next(BoardActions.loadBoards());
-
-      const action = await firstValueFrom(effects.loadBoards$);
-
-      expect(action).toEqual(BoardActions.loadBoardsFailure({ error: 'JSON parse error' }));
-    });
-
-    it('calls fetch with /data.json', async () => {
-      const fetchMock = jest.fn().mockResolvedValue({
-        ok: true,
-        json: jest.fn().mockResolvedValue({ boards: [] }),
-      });
-      global.fetch = fetchMock;
+    it('calls BoardService.getAllBoards', async () => {
+      mockBoardService.getAllBoards.mockReturnValue(of({ boards: [] }));
 
       actions$.next(BoardActions.loadBoards());
 
       await firstValueFrom(effects.loadBoards$);
 
-      expect(fetchMock).toHaveBeenCalledWith('/data.json');
+      expect(mockBoardService.getAllBoards).toHaveBeenCalledTimes(1);
     });
   });
 
